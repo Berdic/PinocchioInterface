@@ -1,5 +1,4 @@
 # PinocchioInterface
-Interface for Pinocchio library
 This is the Windows Application which utilizes release of the Pinocchio library and
 gives it an interface for easier manipulation.
 The full technical description is given in Ilya Baran and Jovan Popovic,
