@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PinocchioInterface
 {
-    public class RiggingModel : INotifyPropertyChanged
+    public class RiggingModel
     {
         private int _xRot;
         private int _yRot;
@@ -29,28 +29,40 @@ namespace PinocchioInterface
         public int XRot
         {
             get { return _xRot; }
-            set { _xRot = value; NotifyPropertyChanged("XRot"); }
+            set
+            {
+                _xRot = value;
+            }
         }
 
 
         public int YRot
         {
             get { return _yRot; }
-            set { _yRot = value; NotifyPropertyChanged("YRot"); }
+            set
+            {
+                _yRot = value;
+            }
         }
 
 
         public int ZRot
         {
             get { return _zRot; }
-            set { _zRot = value; NotifyPropertyChanged("ZRot"); }
+            set
+            {
+                _zRot = value;
+            }
         }
 
 
         public double ScaleFactor
         {
             get { return _scaleFactor; }
-            set { _scaleFactor = Math.Round(value, 2); NotifyPropertyChanged("ScaleFactor"); }
+            set
+            {
+                _scaleFactor = Math.Round(value, 2);
+            }
         }
 
         private string _path;
@@ -62,7 +74,6 @@ namespace PinocchioInterface
             {
                 _path = value;
                 Name = System.IO.Path.GetFileNameWithoutExtension(Path);
-                NotifyPropertyChanged("Path");
             }
         }
 
@@ -76,7 +87,6 @@ namespace PinocchioInterface
             set
             {
                 _name = value;
-                NotifyPropertyChanged("Name");
             }
         }
         private string _name;
@@ -86,22 +96,70 @@ namespace PinocchioInterface
 
         public Motion Motion
         {
-            get { return _motion; }
+            get
+            {
+                return _motion;
+            }
             set
             {
                 _motion = value;
-                Console.WriteLine("Motion for " + Name + " is set to " + Motion);
             }
         }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string propertyName = "")
+        public string GetCommandLineArguments(string motionFolder)
         {
-            if (PropertyChanged != null)
+            string[] parameters = new string[6];
+            parameters[0] = GetPathForCmd();
+            parameters[1] = GetXRotForCmd();
+            parameters[2] = GetYRotForCmd();
+            parameters[3] = GetZRotForCmd();
+            parameters[4] = GetScaleFactorCmd();
+
+            parameters[5] = GetMotionForCmd(motionFolder);
+
+            return String.Join(" ", parameters);
+        }
+
+        private string GetMotionForCmd(string motionFolder)
+        {
+            switch (Motion)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                case Motion.Jump:
+                    return "-motion " + System.IO.Path.Combine(motionFolder, "jumpAround.txt");
+
+                case Motion.Walk:
+                    return "-motion " + System.IO.Path.Combine(motionFolder, "walk.txt");
+
+                case Motion.Run:
+                    return "-motion " + System.IO.Path.Combine(motionFolder, "runAround.txt");
             }
+
+            return "";
+        }
+
+        private string GetScaleFactorCmd()
+        {
+            return "-scale " + ScaleFactor;
+        }
+
+        private string GetZRotForCmd()
+        {
+            return "-rot 0 0 1 " + ZRot;
+        }
+
+        private string GetYRotForCmd()
+        {
+            return "-rot 0 1 0 " + YRot;
+        }
+
+        private string GetXRotForCmd()
+        {
+            return "-rot 1 0 0 " + XRot;
+        }
+
+        private string GetPathForCmd()
+        {
+            return "\"" + Path + "\"";
         }
     }
 
