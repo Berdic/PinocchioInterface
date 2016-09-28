@@ -122,8 +122,9 @@ namespace PinocchioInterface
 
         private void tbModelPath_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && !Validation.GetHasError(sender as DependencyObject) && !RiggingModels.Any(x=>x.Path == ModelPath))
+            if (e.Key == Key.Enter && !Validation.GetHasError(sender as DependencyObject) && !RiggingModels.Any(x => x.Path == ModelPath))
                 RiggingModels.Add(new RiggingModel(ModelPath));
         }
+
     }
 }

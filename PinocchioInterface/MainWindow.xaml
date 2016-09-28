@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PinocchioInterface"
+        xmlns:controls ="clr-namespace:PinocchioInterface.Controls"
         mc:Ignorable="d"
         Title="Pinocchio Setup" Height="650" Width="400"
         ResizeMode="NoResize">
+    <Window.Resources>
+        <controls:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -46,30 +50,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
-        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Width ="50" Height="25" Grid.ColumnSpan="2" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="IsEnabled" Value="False"/>
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbXrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbYrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbZrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbScaleFactor}" Value="False"/>
-                                <!--<Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbModelPath}" Value="False"/>-->
-                                
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="IsEnabled" Value="True"/>
-                        </MultiDataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=lbModels, Path=Items.Count}" Value="0">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
 
         <GroupBox Grid.Row="2" Grid.Column="0" Header="Transformation" Margin="10 0 5 0">
             <Grid>
@@ -140,13 +120,38 @@
         </GroupBox>
 
 
-        <GroupBox Margin="5 0 10 80"  Grid.Row="2" Grid.Column="1" Header="Motion">
+        <GroupBox Margin="5 0 10 120"  Grid.Row="2" Grid.Column="1" Header="Motion">
             <StackPanel Orientation="Vertical">
-                <RadioButton x:Name="rbNone" Content="None" IsChecked="True" Margin="5 10 0 0"/>
-                <RadioButton x:Name="rbWalk" Content="Walk" Margin="5 10 0 0"/>
-                <RadioButton x:Name="rbJump" Content="Jump" Margin="5 10 0 0"/>
-                <RadioButton x:Name="rbRun" Content="Run" Margin="5 10 0 0"/>
+                <RadioButton GroupName="MotionGroup" x:Name="rbNone" Content="None" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.None}}" />
+                <RadioButton GroupName="MotionGroup" x:Name="rbWalk" Content="Walk" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Walk}}"/>
+                <RadioButton GroupName="MotionGroup" x:Name="rbJump" Content="Jump" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Jump}}"/>
+                <RadioButton GroupName="MotionGroup" x:Name="rbRun" Content="Run" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Run}}"/>
             </StackPanel>
         </GroupBox>
+
+        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Width ="50" Height="25" Grid.ColumnSpan="2" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbXrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbYrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbZrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbScaleFactor}" Value="False"/>
+                                <!--<Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbModelPath}" Value="False"/>-->
+
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=lbModels, Path=Items.Count}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
     </Grid>
 </Window>
