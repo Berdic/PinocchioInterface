@@ -23,6 +23,7 @@ namespace PinocchioInterface
             ScaleFactor = 1;
             Path = path;
             Motion = Motion.None;
+            Skeleton = Skeleton.Human;
         }
 
 
@@ -73,7 +74,7 @@ namespace PinocchioInterface
             set
             {
                 _path = value;
-                Name = System.IO.Path.GetFileNameWithoutExtension(Path);
+                Name = System.IO.Path.GetFileName(Path);
             }
         }
 
@@ -103,8 +104,19 @@ namespace PinocchioInterface
             set
             {
                 _motion = value;
+                if (_motion != Motion.None)
+                    Skeleton = Skeleton.Human;
             }
         }
+
+        private Skeleton _skeleton;
+
+        public Skeleton Skeleton
+        {
+            get { return _skeleton; }
+            set { _skeleton = value; Console.WriteLine("Skeleton set to: " + value.ToString()); }
+        }
+
 
         public string GetCommandLineArguments(string motionFolder)
         {
@@ -119,6 +131,7 @@ namespace PinocchioInterface
 
             return String.Join(" ", parameters);
         }
+
 
         private string GetMotionForCmd(string motionFolder)
         {
@@ -135,6 +148,11 @@ namespace PinocchioInterface
             }
 
             return "";
+        }
+
+        private string GetSkeletonCmd()
+        {
+            return "-skel " + Skeleton.ToString().ToLower();
         }
 
         private string GetScaleFactorCmd()
@@ -161,6 +179,7 @@ namespace PinocchioInterface
         {
             return "\"" + Path + "\"";
         }
+
     }
 
 
@@ -170,6 +189,14 @@ namespace PinocchioInterface
         Walk,
         Run,
         Jump
+    }
+
+    public enum Skeleton
+    {
+        Human,
+        Quad,
+        Horse,
+        Centaur
     }
 
 }

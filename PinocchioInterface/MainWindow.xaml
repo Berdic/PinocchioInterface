@@ -119,15 +119,88 @@
             </Grid>
         </GroupBox>
 
+        <StackPanel Margin="5 0 10 0" Grid.Row="2" Grid.Column="1" Orientation="Vertical">
+            <GroupBox x:Name="gbMotion" Header="Motion">
+                <GroupBox.Style>
+                    <Style TargetType="GroupBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=lbModels, Path=SelectedIndex}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GroupBox.Style>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton GroupName="MotionGroup" x:Name="rbNone" Content="None" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.None}}" />
+                    <RadioButton GroupName="MotionGroup" x:Name="rbWalk" Content="Walk" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Walk}}"/>
+                    <RadioButton GroupName="MotionGroup" x:Name="rbJump" Content="Jump" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Jump}}"/>
+                    <RadioButton GroupName="MotionGroup" x:Name="rbRun" Content="Run" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Run}}"/>
+                </StackPanel>
+            </GroupBox>
 
-        <GroupBox Margin="5 0 10 120"  Grid.Row="2" Grid.Column="1" Header="Motion">
-            <StackPanel Orientation="Vertical">
-                <RadioButton GroupName="MotionGroup" x:Name="rbNone" Content="None" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.None}}" />
-                <RadioButton GroupName="MotionGroup" x:Name="rbWalk" Content="Walk" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Walk}}"/>
-                <RadioButton GroupName="MotionGroup" x:Name="rbJump" Content="Jump" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Jump}}"/>
-                <RadioButton GroupName="MotionGroup" x:Name="rbRun" Content="Run" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Run}}"/>
-            </StackPanel>
-        </GroupBox>
+            <GroupBox x:Name="gbSkeleton" Margin="0 10 0 0" Header="Skeleton">
+                <GroupBox.Style>
+                    <Style TargetType="GroupBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=lbModels, Path=SelectedIndex}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GroupBox.Style>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbHuman" Content="Human" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Human}}">
+                        <!--<RadioButton.Style>
+                            <Style TargetType="RadioButton">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
+                                        <Setter Property="IsChecked" Value="True"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>-->
+                    </RadioButton>
+
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbQuad" Content="Quad" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Quad}}">
+                        <RadioButton.Style>
+                            <Style TargetType="RadioButton">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>
+                    </RadioButton>
+
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbHorse" Content="Horse" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Horse}}" >
+                        <RadioButton.Style>
+                            <Style TargetType="RadioButton">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>
+                    </RadioButton>
+
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbCentaur" Content="Centaur" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Centaur}}" >
+                        <RadioButton.Style>
+                            <Style TargetType="RadioButton">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RadioButton.Style>
+                    </RadioButton>
+
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        
 
         <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Width ="50" Height="25" Grid.ColumnSpan="2" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button.Style>
