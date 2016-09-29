@@ -7,7 +7,7 @@
         xmlns:controls ="clr-namespace:PinocchioInterface.Controls"
         xmlns:viewmodel="clr-namespace:PinocchioInterface.ViewModel"
         mc:Ignorable="d"
-        Title="Pinocchio Setup" Height="650" Width="400"
+        Title="Pinocchio GUI" Height="350" Width="650"
         ResizeMode="NoResize">
     <Window.DataContext>
         <viewmodel:MainWindowViewModel/>
@@ -18,17 +18,17 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Label Content="Choose model:"/>
-            <TextBox x:Name="tbModelPath" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" Width="200" KeyUp="tbModelPath_KeyUp">
+            <TextBox x:Name="tbModelPath" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" Width="160" KeyUp="tbModelPath_KeyUp">
                 <TextBox.Text>
                     <Binding Path="ModelPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -40,22 +40,24 @@
             <Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Width ="50" Height="25" Content="Browse" />
         </StackPanel>
 
-        <ListBox x:Name="lbModels" Grid.Row="1" Grid.ColumnSpan="2" Margin="10" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}">
+        <ListBox x:Name="lbModels" Grid.Row="1" Margin="5" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="330"/>
+                            <ColumnDefinition Width="270"/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="{Binding Path=Name}" ToolTip="{Binding Path=Path}"/>
+                        <Label Grid.Column="0"  ToolTip="{Binding Path=Path}">
+                            <TextBlock Text="{Binding Path=Name}"/>
+                        </Label>
                         <Label Grid.Column="1" MouseLeftButtonUp="Label_MouseLeftButtonUp" Content="x" FontWeight="Bold" HorizontalAlignment="Right" ToolTip="Remove from the list"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <GroupBox Grid.Row="2" Grid.Column="0" Header="Transformation" Margin="10 0 5 0">
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Transformation" Margin="10 0 5 5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -123,7 +125,7 @@
             </Grid>
         </GroupBox>
 
-        <StackPanel Margin="5 0 10 0" Grid.Row="2" Grid.Column="1" Orientation="Vertical">
+        <StackPanel Margin="5 0 10 0" Grid.Row="1" Grid.Column="2" Orientation="Vertical">
             <GroupBox x:Name="gbMotion" Header="Motion">
                 <GroupBox.Style>
                     <Style TargetType="GroupBox">
@@ -142,7 +144,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox x:Name="gbSkeleton" Margin="0 10 0 0" Header="Skeleton">
+            <GroupBox x:Name="gbSkeleton" Margin="0 0 0 5" Header="Skeleton">
                 <GroupBox.Style>
                     <Style TargetType="GroupBox">
                         <Style.Triggers>
@@ -161,13 +163,14 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
                                         <Setter Property="IsEnabled" Value="False"/>
+                                        
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </RadioButton.Style>
                     </RadioButton>
 
-                    <RadioButton GroupName="SkeletonGroup" x:Name="rbHorse" Content="Horse" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Horse}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbHorse"  Content="Horse" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Horse}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                         <RadioButton.Style>
                             <Style TargetType="RadioButton">
                                 <Style.Triggers>
@@ -179,12 +182,13 @@
                         </RadioButton.Style>
                     </RadioButton>
 
-                    <RadioButton GroupName="SkeletonGroup" x:Name="rbCentaur" Content="Centaur" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Centaur}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbCentaur"  Content="Centaur" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Centaur}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                         <RadioButton.Style>
                             <Style TargetType="RadioButton">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
                                         <Setter Property="IsEnabled" Value="False"/>
+                                        
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -196,7 +200,7 @@
         </StackPanel>
         
 
-        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Width ="50" Height="25" Grid.ColumnSpan="2" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Width ="50" Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="IsEnabled" Value="False"/>
