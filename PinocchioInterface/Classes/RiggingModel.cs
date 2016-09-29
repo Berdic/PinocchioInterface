@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace PinocchioInterface
 {
-    public class RiggingModel
+    public class RiggingModel : INotifyPropertyChanged
     {
         private int _xRot;
         private int _yRot;
         private int _zRot;
 
         private double _scaleFactor;
+
+
 
         public RiggingModel(string path)
         {
@@ -33,6 +35,7 @@ namespace PinocchioInterface
             set
             {
                 _xRot = value;
+                NotifyPropertyChanged("XRot");
             }
         }
 
@@ -43,6 +46,7 @@ namespace PinocchioInterface
             set
             {
                 _yRot = value;
+                NotifyPropertyChanged("YRot");
             }
         }
 
@@ -53,6 +57,7 @@ namespace PinocchioInterface
             set
             {
                 _zRot = value;
+                NotifyPropertyChanged("ZRot");
             }
         }
 
@@ -114,13 +119,13 @@ namespace PinocchioInterface
         public Skeleton Skeleton
         {
             get { return _skeleton; }
-            set { _skeleton = value; Console.WriteLine("Skeleton set to: " + value.ToString()); }
+            set { _skeleton = value; NotifyPropertyChanged("Skeleton"); }
         }
 
 
         public string GetCommandLineArguments(string motionFolder)
         {
-            string[] parameters = new string[6];
+            string[] parameters = new string[7];
             parameters[0] = GetPathForCmd();
             parameters[1] = GetXRotForCmd();
             parameters[2] = GetYRotForCmd();
@@ -128,7 +133,7 @@ namespace PinocchioInterface
             parameters[4] = GetScaleFactorCmd();
 
             parameters[5] = GetMotionForCmd(motionFolder);
-
+            parameters[6] = GetSkeletonCmd();
             return String.Join(" ", parameters);
         }
 
@@ -178,6 +183,18 @@ namespace PinocchioInterface
         private string GetPathForCmd()
         {
             return "\"" + Path + "\"";
+        }
+
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
     }

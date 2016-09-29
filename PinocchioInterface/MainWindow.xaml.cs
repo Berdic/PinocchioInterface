@@ -17,50 +17,23 @@ using Microsoft.Win32;
 using System.IO;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using PinocchioInterface.ViewModel;
 
 namespace PinocchioInterface
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
+        private MainWindowViewModel _dataContext;
         public MainWindow()
         {
 
             InitializeComponent();
-            DataContext = this;
+
+            _dataContext = (MainWindowViewModel)DataContext;
         }
-
-
-        private ObservableCollection<RiggingModel> _riggingModels = new ObservableCollection<RiggingModel>();
-        public ObservableCollection<RiggingModel> RiggingModels
-        {
-            get
-            {
-                return _riggingModels;
-            }
-
-            set
-            {
-                _riggingModels = value;
-                NotifyPropertyChanged("RiggingModels");
-            }
-        }
-
-        private string _modelPath = "";
-
-        public string ModelPath
-        {
-            get { return _modelPath; }
-            set
-            {
-                _modelPath = value;
-                NotifyPropertyChanged("ModelPath");
-            }
-        }
-
-
 
 
 
@@ -70,49 +43,43 @@ namespace PinocchioInterface
 
             string motionFolder = System.IO.Path.Combine("Pinocchio", "motion");
 
-            foreach (RiggingModel model in RiggingModels)
-            {
-                Process.Start(pinocchioPath, model.GetCommandLineArguments(motionFolder));
-            }
-
+            _dataContext.AutoRig(pinocchioPath, motionFolder);
         }
 
         private void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Choose model for autorigging";
-            openFileDialog.Filter = "OBJ files (*.obj)|*.obj | PLY files (*.ply)|*.ply | OFF files (*.off)|*.off | GTS files (*.gts)|*.gts | STL files (*.stl)|*.stl | All files (*.*) | *.*";
-            openFileDialog.InitialDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-            openFileDialog.Multiselect = true;
+            OpenFileDialog openFileDialog = CreateFileDialogForModelSelection();
+
             if (openFileDialog.ShowDialog() == true)
             {
                 foreach (string selectedPath in openFileDialog.FileNames)
                 {
-                    RiggingModels.Add(new RiggingModel(selectedPath));
+                    _dataContext.AddModel(selectedPath);
                 }
-
             }
         }
 
         private void Label_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            RiggingModels.Remove((RiggingModel)lbModels.SelectedItem);
+            _dataContext.RemoveModel((RiggingModel)lbModels.SelectedItem);
         }
 
         private void tbModelPath_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && !Validation.GetHasError(sender as DependencyObject) && !RiggingModels.Any(x => x.Path == ModelPath))
-                RiggingModels.Add(new RiggingModel(ModelPath));
+            if (e.Key == Key.Enter && !Validation.GetHasError(sender as DependencyObject) && !_dataContext.AlreadyInList())
+                _dataContext.AddModel();
         }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string propertyName = "")
+        private OpenFileDialog CreateFileDialogForModelSelection()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Title = "Choose model for autorigging";
+            openFileDialog.Filter = "OBJ files (*.obj)| *.obj | PLY files (*.ply)| *.ply | OFF files (*.off)| *.off | GTS files (*.gts)| *.gts | STL files (*.stl)| *.stl | All files (*.*) | *.*";
+            openFileDialog.InitialDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            openFileDialog.Multiselect = true;
+
+            return openFileDialog;
         }
     }
 }

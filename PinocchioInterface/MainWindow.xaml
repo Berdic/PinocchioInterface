@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PinocchioInterface"
         xmlns:controls ="clr-namespace:PinocchioInterface.Controls"
+        xmlns:viewmodel="clr-namespace:PinocchioInterface.ViewModel"
         mc:Ignorable="d"
         Title="Pinocchio Setup" Height="650" Width="400"
         ResizeMode="NoResize">
+    <Window.DataContext>
+        <viewmodel:MainWindowViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <controls:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
     </Window.Resources>
@@ -149,19 +153,9 @@
                     </Style>
                 </GroupBox.Style>
                 <StackPanel Orientation="Vertical">
-                    <RadioButton GroupName="SkeletonGroup" x:Name="rbHuman" Content="Human" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Human}}">
-                        <!--<RadioButton.Style>
-                            <Style TargetType="RadioButton">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
-                                        <Setter Property="IsChecked" Value="True"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </RadioButton.Style>-->
-                    </RadioButton>
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbHuman" Content="Human" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Human}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <RadioButton GroupName="SkeletonGroup" x:Name="rbQuad" Content="Quad" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Quad}}">
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbQuad" Content="Quad" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Quad}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <RadioButton.Style>
                             <Style TargetType="RadioButton">
                                 <Style.Triggers>
@@ -173,7 +167,7 @@
                         </RadioButton.Style>
                     </RadioButton>
 
-                    <RadioButton GroupName="SkeletonGroup" x:Name="rbHorse" Content="Horse" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Horse}}" >
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbHorse" Content="Horse" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Horse}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                         <RadioButton.Style>
                             <Style TargetType="RadioButton">
                                 <Style.Triggers>
@@ -185,7 +179,7 @@
                         </RadioButton.Style>
                     </RadioButton>
 
-                    <RadioButton GroupName="SkeletonGroup" x:Name="rbCentaur" Content="Centaur" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Centaur}}" >
+                    <RadioButton GroupName="SkeletonGroup" x:Name="rbCentaur" Content="Centaur" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Skeleton,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Skeleton.Centaur}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
                         <RadioButton.Style>
                             <Style TargetType="RadioButton">
                                 <Style.Triggers>
