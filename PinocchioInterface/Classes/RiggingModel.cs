@@ -12,10 +12,13 @@ namespace PinocchioInterface
         private int _xRot;
         private int _yRot;
         private int _zRot;
-
         private double _scaleFactor;
 
+        private string _path;
+        private string _name;
 
+        private Motion _motion;
+        private Skeleton _skeleton;
 
         public RiggingModel(string path)
         {
@@ -28,7 +31,9 @@ namespace PinocchioInterface
             Skeleton = Skeleton.Human;
         }
 
-
+        /// <summary>
+        /// Degrees value for rotation aroun X axis.
+        /// </summary>
         public int XRot
         {
             get { return _xRot; }
@@ -39,7 +44,9 @@ namespace PinocchioInterface
             }
         }
 
-
+        /// <summary>
+        /// Degrees value for rotation aroun Y axis.
+        /// </summary>
         public int YRot
         {
             get { return _yRot; }
@@ -50,7 +57,9 @@ namespace PinocchioInterface
             }
         }
 
-
+        /// <summary>
+        /// Degrees value for rotation aroun Z axis.
+        /// </summary>
         public int ZRot
         {
             get { return _zRot; }
@@ -61,7 +70,9 @@ namespace PinocchioInterface
             }
         }
 
-
+        /// <summary>
+        /// Skeleton scaling factor
+        /// </summary>
         public double ScaleFactor
         {
             get { return _scaleFactor; }
@@ -71,8 +82,9 @@ namespace PinocchioInterface
             }
         }
 
-        private string _path;
-
+        /// <summary>
+        /// Path to the model file
+        /// </summary>
         public string Path
         {
             get { return _path; }
@@ -83,6 +95,9 @@ namespace PinocchioInterface
             }
         }
 
+        /// <summary>
+        /// Name of the model file, extracted from Path property
+        /// </summary>
         public string Name
         {
             get
@@ -95,11 +110,12 @@ namespace PinocchioInterface
                 _name = value;
             }
         }
-        private string _name;
 
 
-        private Motion _motion;
-
+        
+        /// <summary>
+        /// Motion
+        /// </summary>
         public Motion Motion
         {
             get
@@ -114,8 +130,9 @@ namespace PinocchioInterface
             }
         }
 
-        private Skeleton _skeleton;
-
+        /// <summary>
+        /// Skeleton
+        /// </summary>
         public Skeleton Skeleton
         {
             get { return _skeleton; }
