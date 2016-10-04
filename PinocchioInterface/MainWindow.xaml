@@ -8,7 +8,7 @@
         xmlns:viewmodel="clr-namespace:PinocchioInterface.ViewModel"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="Pinocchio GUI" Height="350" Width="700"
+        Title="Pinocchio GUI" Height="430" Width="700"
         ResizeMode="NoResize">
     <Window.DataContext>
         <viewmodel:MainWindowViewModel/>
@@ -29,7 +29,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Label Content="Choose model:"/>
-            <TextBox x:Name="tbModelPath" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" Width="160" KeyUp="tbModelPath_KeyUp">
+            <TextBox x:Name="tbModelPath" Width="160" KeyUp="tbModelPath_KeyUp">
                 <TextBox.Text>
                     <Binding Path="ModelPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -38,15 +38,14 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Width ="50" Height="25" Content="Browse" />
+            <Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Height="25" Content="Browse" />
         </StackPanel>
-
-        <ListBox x:Name="lbModels" Grid.Row="1" Margin="5" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}">
+        <ListBox x:Name="lbModels" Margin="5" Grid.Row="1" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="270"/>
+                            <ColumnDefinition Width="280"/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0"  ToolTip="{Binding Path=Path}">
@@ -57,8 +56,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="Transformation" Margin="10 0 5 5">
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Transformation">
             <GroupBox.Style>
                 <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}" >
                     <Style.Triggers>
@@ -77,11 +75,11 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Rotation (degrees):" FontSize="10" FontWeight="Bold"></Label>
+                <Label Grid.Row="0" Content="Rotation (degrees):" FontSize="12" FontWeight="Bold"></Label>
                 <StackPanel VerticalAlignment="Top" Grid.Row="1"  Orientation="Horizontal">
                     <Label FontSize="10" Content="X axis:"/>
-                    <Slider Maximum="359" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.XRot, Mode=TwoWay}"/>
-                    <TextBox ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" Width="30" x:Name="tbXrot">
+                    <Slider  HorizontalAlignment="Center" Margin="0 0 5 0" Maximum="359" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.XRot, Mode=TwoWay}"/>
+                    <TextBox Width="30" x:Name="tbXrot">
                         <TextBox.Text>
                             <Binding ElementName="lbModels" Path="SelectedItem.XRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -93,8 +91,8 @@
                 </StackPanel>
                 <StackPanel  VerticalAlignment="Top" Grid.Row="2"   Orientation="Horizontal">
                     <Label FontSize="10" Content="Y axis:"/>
-                    <Slider Maximum="359" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.YRot, Mode=TwoWay}"/>
-                    <TextBox ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" Width="30" x:Name="tbYrot">
+                    <Slider Maximum="359" Margin="0 0 5 0" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.YRot, Mode=TwoWay}"/>
+                    <TextBox Width="30" x:Name="tbYrot">
                         <TextBox.Text>
                             <Binding ElementName="lbModels" Path="SelectedItem.YRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -106,8 +104,8 @@
                 </StackPanel>
                 <StackPanel VerticalAlignment="Top" Grid.Row="3"    Orientation="Horizontal">
                     <Label  FontSize="10" Content="Z axis:" />
-                    <Slider Maximum="359" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.ZRot, Mode=TwoWay}"/>
-                    <TextBox ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" Width="30" x:Name="tbZrot" >
+                    <Slider Maximum="359" Margin="0 0 5 0" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.ZRot, Mode=TwoWay}"/>
+                    <TextBox Width="30" x:Name="tbZrot" >
                         <TextBox.Text>
                             <Binding ElementName="lbModels" Path="SelectedItem.ZRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -117,11 +115,11 @@
                         </TextBox.Text>
                     </TextBox>
                 </StackPanel>
-                <Label VerticalAlignment="Bottom" Grid.Row="4" Content="Scale:" FontWeight="Bold" FontSize="10"></Label>
+                <Label VerticalAlignment="Bottom" Grid.Row="4" Content="Scale:" FontWeight="Bold" FontSize="12"></Label>
                 <StackPanel Grid.Row="5" Orientation="Horizontal">
                     <Label FontSize="10" VerticalAlignment="Center" Content="Value:"/>
 
-                    <TextBox ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" Width="32" Height="25" x:Name="tbScaleFactor">
+                    <TextBox Width="32" Height="25" x:Name="tbScaleFactor">
                         <TextBox.Text>
                             <Binding ElementName="lbModels" Path="SelectedItem.ScaleFactor"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -135,7 +133,7 @@
             </Grid>
         </GroupBox>
 
-        <StackPanel Margin="5 0 10 0" Grid.Row="1" Grid.Column="2" Orientation="Vertical">
+        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical">
             <GroupBox x:Name="gbMotion" Header="Motion">
                 <GroupBox.Style>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}">
@@ -154,7 +152,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox x:Name="gbSkeleton" Margin="0 0 0 5" Header="Skeleton">
+            <GroupBox x:Name="gbSkeleton" Header="Skeleton">
                 <GroupBox.Style>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}">
                         <Style.Triggers>
@@ -210,7 +208,7 @@
         </StackPanel>
         
 
-        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Width ="50" Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
                     <Setter Property="IsEnabled" Value="False"/>
