@@ -18,13 +18,15 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using PinocchioInterface.ViewModel;
+using MahApps.Metro.Controls;
+
 
 namespace PinocchioInterface
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private MainWindowViewModel _dataContext;
         public MainWindow()
