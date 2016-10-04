@@ -75,7 +75,7 @@ namespace PinocchioInterface
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             openFileDialog.Title = "Choose model for autorigging";
-            openFileDialog.Filter = "OBJ files (*.obj)| *.obj | PLY files (*.ply)| *.ply | OFF files (*.off)| *.off | GTS files (*.gts)| *.gts | STL files (*.stl)| *.stl | All files (*.*) | *.*";
+            openFileDialog.Filter = "OBJ files (*.obj)|*.obj|PLY files (*.ply)|*.ply|OFF files (*.off)|*.off|GTS files (*.gts)|*.gts|STL files (*.stl)|*.stl";
             openFileDialog.InitialDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
             openFileDialog.Multiselect = true;
 
