@@ -38,7 +38,7 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Width ="50" Height="25" Content="Browse" />
+            <Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Height="25" Content="Browse" />
         </StackPanel>
 
         <ListBox x:Name="lbModels" Grid.Row="1" Margin="5" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}">
@@ -210,7 +210,7 @@
         </StackPanel>
         
 
-        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Width ="50" Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
                     <Setter Property="IsEnabled" Value="False"/>
