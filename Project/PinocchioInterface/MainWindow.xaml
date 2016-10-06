@@ -40,10 +40,6 @@
             </TextBox>
             <Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Height="25" Content="Browse" />
         </StackPanel>
-        <!--<Grid x:Name="RectangleROW" Grid.Row="1">
-            <Rectangle Stroke="#FF000000" StrokeThickness="1" StrokeDashArray="4 4" SnapsToDevicePixels="True" Grid.RowSpan="2" RadiusX="15" RadiusY="15"/>
-            <Label HorizontalAlignment="Center"  VerticalAlignment="Center" FontSize="20" FontStyle="Italic" Content="Images preview" Visibility="Visible" Grid.Row="2"/>
-        </Grid>-->
         <ListBox x:Name="lbModels" Margin="5" Grid.Row="1" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -212,7 +208,7 @@
         </StackPanel>
         
 
-        <Button Grid.Row="3" Name="btnAutorig" Command="{Binding CommandAutoRig}"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
                     <Setter Property="IsEnabled" Value="False"/>
