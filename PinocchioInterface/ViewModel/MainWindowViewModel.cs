@@ -1,33 +1,50 @@
-﻿using System;
+﻿using PinocchioInterface.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PinocchioInterface.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<RiggingModel> _riggingModels = new ObservableCollection<RiggingModel>();
+        #region Properties
+
+        private MainWindow _model;
+
+        public MainWindow Model
+        {
+            get { return (MainWindow)App.Current.MainWindow; }
+        }
+
+
+        //private ObservableCollection<RiggingModel> _riggingModels = new ObservableCollection<RiggingModel>();
+        /// <summary>
+        /// Rigging models which are shown in the list.
+        /// </summary>
         public ObservableCollection<RiggingModel> RiggingModels
         {
             get
             {
-                return _riggingModels;
+                return Model.RiggingModels;
             }
 
             set
             {
-                _riggingModels = value;
+                Model.RiggingModels = value;
+
                 NotifyPropertyChanged("RiggingModels");
             }
         }
 
         private string _modelPath = "";
 
+        /// <summary>
+        /// Manually entered path
+        /// </summary>
         public string ModelPath
         {
             get { return _modelPath; }
@@ -38,33 +55,32 @@ namespace PinocchioInterface.ViewModel
             }
         }
 
+        #endregion
 
-        public void AutoRig(string pinocchioPath, string motionFolder)
+        #region Commands
+
+        private ICommand _commandAutoRig = null;
+
+        public ICommand CommandAutoRig
         {
-            foreach (RiggingModel model in RiggingModels)
+            get
             {
-                Process.Start(pinocchioPath, model.GetCommandLineArguments(motionFolder));
+                if (_commandAutoRig == null)
+                {
+                    _commandAutoRig = new RelayCommand(
+                        action => Model.RiggingModels.Count > 0,
+                        action => Model.AutoRig());
+                }
+                return _commandAutoRig;
             }
         }
 
-        public void AddModel(string path = null)
-        {
-            if (path == null)
-                RiggingModels.Add(new RiggingModel(ModelPath));
-            else
-                RiggingModels.Add(new RiggingModel(path));
-        }
 
-        public void RemoveModel(RiggingModel model)
-        {
-            RiggingModels.Remove(model);
-        }
+        #endregion
 
-        public bool AlreadyInList()
-        {
-            return RiggingModels.Any(x => x.Path == ModelPath);
-        }
 
+
+        #region NotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string propertyName = "")
         {
@@ -73,5 +89,7 @@ namespace PinocchioInterface.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        #endregion
     }
+
 }
