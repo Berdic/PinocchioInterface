@@ -57,11 +57,6 @@ namespace PinocchioInterface
             }
         }
 
-        private void Label_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            viewModel.RemoveModel((RiggingModel)lbModels.SelectedItem);
-        }
-
         private void tbModelPath_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter && !Validation.GetHasError(sender as DependencyObject) && !viewModel.IsAlreadyInList())
@@ -78,6 +73,13 @@ namespace PinocchioInterface
             openFileDialog.Multiselect = true;
 
             return openFileDialog;
+        }
+
+        private void btnRemove_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            var riggingModel = button.DataContext;
+            viewModel.RemoveModel((RiggingModel)riggingModel);
         }
     }
 }
