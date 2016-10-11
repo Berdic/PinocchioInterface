@@ -70,7 +70,7 @@ namespace PinocchioInterface
 
             if (System.IO.File.Exists(path))
             {
-                return new ValidationResult(true, "Please enter a valid path.");
+                return new ValidationResult(true, null);
             }
             else
                 return new ValidationResult(false, "Please enter a valid path.");

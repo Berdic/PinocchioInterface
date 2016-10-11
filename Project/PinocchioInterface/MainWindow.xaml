@@ -8,6 +8,7 @@
         xmlns:viewmodel="clr-namespace:PinocchioInterface.ViewModel"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
         Title="Pinocchio GUI" Height="430" Width="700"
         ResizeMode="NoResize">
     <Window.DataContext>
@@ -27,9 +28,15 @@
             <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <Label Content="Choose model:"/>
-            <TextBox x:Name="tbModelPath" Width="160" KeyUp="tbModelPath_KeyUp">
+        <Grid Margin="0 5 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.2*"/>
+            </Grid.ColumnDefinitions>
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">-->
+            <Label Grid.Column="0" Content="Choose model:"/>
+            <TextBox Grid.Column="1" HorizontalAlignment="Stretch" x:Name="tbModelPath" KeyUp="tbModelPath_KeyUp">
                 <TextBox.Text>
                     <Binding Path="ModelPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -38,105 +45,67 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Height="25" Content="Browse" />
-        </StackPanel>
-        <ListBox x:Name="lbModels" Margin="5" Grid.Row="1" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}">
+            <Button Grid.Column="2" Width="30" HorizontalAlignment="Right" x:Name="btnBrowse"  Click="btnBrowse_Click" Background="Transparent">
+                <!--Style="{DynamicResource MetroCircleButtonStyle}"-->
+                <Rectangle Width="20"  Height="15">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_folder_open}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+        </Grid>
+        <!--<Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Height="25" Content="Browse" />-->
+        <!--</StackPanel>-->
+        <ListBox x:Name="lbModels" Margin="5" Grid.Row="1" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}" SelectedItem="{Binding SelectedRiggingModel}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="280"/>
-                            <ColumnDefinition Width="20"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"  ToolTip="{Binding Path=Path}">
+                    <DockPanel>
+                        <Label DockPanel.Dock="Left"  ToolTip="{Binding Path=Path}">
                             <TextBlock Text="{Binding Path=Name}"/>
                         </Label>
-                        <Label Grid.Column="1" MouseLeftButtonUp="Label_MouseLeftButtonUp" Content="x" FontWeight="Bold" HorizontalAlignment="Right" ToolTip="Remove from the list"/>
-                    </Grid>
+                        <Button Width="30" DockPanel.Dock="Right" x:Name="btnRemove" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnRemove_Click" HorizontalAlignment="Right">
+                            <Rectangle Width="10"  Height="10">
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_close}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Button>
+                    </DockPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="Transformation">
-            <GroupBox.Style>
-                <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}" >
+
+        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click" Content="Autorig"   Width="60" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
+                    <Setter Property="IsEnabled" Value="False"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=lbModels, Path=SelectedIndex}" Value="-1">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbXrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbYrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbZrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbScaleFactor}" Value="False"/>
+                                <!--<Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbModelPath}" Value="False"/>-->
+
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=lbModels, Path=Items.Count}" Value="0">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </GroupBox.Style>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Rotation (degrees):" FontSize="12" FontWeight="Bold"></Label>
-                <StackPanel VerticalAlignment="Top" Grid.Row="1"  Orientation="Horizontal">
-                    <Label FontSize="10" Content="X axis:"/>
-                    <Slider  HorizontalAlignment="Center" Margin="0 0 5 0" Maximum="359" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.XRot, Mode=TwoWay}"/>
-                    <TextBox Width="30" x:Name="tbXrot">
-                        <TextBox.Text>
-                            <Binding ElementName="lbModels" Path="SelectedItem.XRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <local:DegreesValidator/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-                <StackPanel  VerticalAlignment="Top" Grid.Row="2"   Orientation="Horizontal">
-                    <Label FontSize="10" Content="Y axis:"/>
-                    <Slider Maximum="359" Margin="0 0 5 0" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.YRot, Mode=TwoWay}"/>
-                    <TextBox Width="30" x:Name="tbYrot">
-                        <TextBox.Text>
-                            <Binding ElementName="lbModels" Path="SelectedItem.YRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <local:DegreesValidator/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-                <StackPanel VerticalAlignment="Top" Grid.Row="3"    Orientation="Horizontal">
-                    <Label  FontSize="10" Content="Z axis:" />
-                    <Slider Maximum="359" Margin="0 0 5 0" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.ZRot, Mode=TwoWay}"/>
-                    <TextBox Width="30" x:Name="tbZrot" >
-                        <TextBox.Text>
-                            <Binding ElementName="lbModels" Path="SelectedItem.ZRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <local:DegreesValidator/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-                <Label VerticalAlignment="Bottom" Grid.Row="4" Content="Scale:" FontWeight="Bold" FontSize="12"></Label>
-                <StackPanel Grid.Row="5" Orientation="Horizontal">
-                    <Label FontSize="10" VerticalAlignment="Center" Content="Value:"/>
+            </Button.Style>
+        </Button>
 
-                    <TextBox Width="32" Height="25" x:Name="tbScaleFactor">
-                        <TextBox.Text>
-                            <Binding ElementName="lbModels" Path="SelectedItem.ScaleFactor"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                <Binding.ValidationRules>
-                                    <local:ScaleFactorValidator/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
+        <!--<Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
+            
+        </Button>-->
 
-            </Grid>
-        </GroupBox>
-
-        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical">
-            <GroupBox x:Name="gbMotion" Header="Motion">
+            <GroupBox Grid.Row="1" Grid.Column="1" Header="Transformation">
                 <GroupBox.Style>
-                    <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}">
+                    <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}" >
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ElementName=lbModels, Path=SelectedIndex}" Value="-1">
                                 <Setter Property="IsEnabled" Value="False"/>
@@ -144,14 +113,74 @@
                         </Style.Triggers>
                     </Style>
                 </GroupBox.Style>
-                <StackPanel Orientation="Vertical">
-                    <RadioButton GroupName="MotionGroup" x:Name="rbNone" Content="None" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.None}}" />
-                    <RadioButton GroupName="MotionGroup" x:Name="rbWalk" Content="Walk" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Walk}}"/>
-                    <RadioButton GroupName="MotionGroup" x:Name="rbJump" Content="Jump" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Jump}}"/>
-                    <RadioButton GroupName="MotionGroup" x:Name="rbRun" Content="Run" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Run}}"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Rotation (degrees):" FontSize="12" FontWeight="Bold"></Label>
+                    <StackPanel VerticalAlignment="Top" Grid.Row="1"  Orientation="Horizontal">
+                        <Label FontSize="10" Content="X axis:"/>
+                        <Slider  HorizontalAlignment="Center" Margin="0 0 5 0" Maximum="359" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.XRot, Mode=TwoWay}"/>
+                        <TextBox Width="30" x:Name="tbXrot">
+                            <TextBox.Text>
+                                <Binding ElementName="lbModels" Path="SelectedItem.XRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:DegreesValidator/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel  VerticalAlignment="Top" Grid.Row="2"   Orientation="Horizontal">
+                        <Label FontSize="10" Content="Y axis:"/>
+                        <Slider Maximum="359" Margin="0 0 5 0" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.YRot, Mode=TwoWay}"/>
+                        <TextBox Width="30" x:Name="tbYrot">
+                            <TextBox.Text>
+                                <Binding ElementName="lbModels" Path="SelectedItem.YRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:DegreesValidator/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Top" Grid.Row="3"    Orientation="Horizontal">
+                        <Label  FontSize="10" Content="Z axis:" />
+                        <Slider Maximum="359" Margin="0 0 5 0" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.ZRot, Mode=TwoWay}"/>
+                        <TextBox Width="30" x:Name="tbZrot" >
+                            <TextBox.Text>
+                                <Binding ElementName="lbModels" Path="SelectedItem.ZRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:DegreesValidator/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                    <Label VerticalAlignment="Bottom" Grid.Row="4" Content="Scale:" FontWeight="Bold" FontSize="12"></Label>
+                    <StackPanel Grid.Row="5" Orientation="Horizontal">
+                        <Label FontSize="10" VerticalAlignment="Center" Content="Value:"/>
+
+                        <TextBox Width="32" Height="25" x:Name="tbScaleFactor">
+                            <TextBox.Text>
+                                <Binding ElementName="lbModels" Path="SelectedItem.ScaleFactor"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <local:ScaleFactorValidator/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
+                </Grid>
             </GroupBox>
 
+        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical">
             <GroupBox x:Name="gbSkeleton" Header="Skeleton">
                 <GroupBox.Style>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}">
@@ -171,7 +200,7 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
                                         <Setter Property="IsEnabled" Value="False"/>
-                                        
+
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -196,7 +225,7 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=rbNone, Path=IsChecked}" Value="False">
                                         <Setter Property="IsEnabled" Value="False"/>
-                                        
+
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -205,32 +234,25 @@
 
                 </StackPanel>
             </GroupBox>
+
+            <GroupBox x:Name="gbMotion" Header="Motion">
+                <GroupBox.Style>
+                    <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=lbModels, Path=SelectedIndex}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GroupBox.Style>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton GroupName="MotionGroup" x:Name="rbNone" Content="None" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.None}}" />
+                    <RadioButton GroupName="MotionGroup" x:Name="rbWalk" Content="Walk" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Walk}}"/>
+                    <RadioButton GroupName="MotionGroup" x:Name="rbJump" Content="Jump" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Jump}}"/>
+                    <RadioButton GroupName="MotionGroup" x:Name="rbRun" Content="Run" Margin="5 10 0 0" IsChecked="{Binding ElementName=lbModels, Path=SelectedItem.Motion,  Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static local:Motion.Run}}"/>
+                </StackPanel>
+            </GroupBox>
+
         </StackPanel>
-        
-
-        <Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button.Style>
-                <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
-                    <Setter Property="IsEnabled" Value="False"/>
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbXrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbYrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbZrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbScaleFactor}" Value="False"/>
-                                <!--<Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbModelPath}" Value="False"/>-->
-
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="IsEnabled" Value="True"/>
-                        </MultiDataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=lbModels, Path=Items.Count}" Value="0">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-
     </Grid>
 </Controls:MetroWindow>

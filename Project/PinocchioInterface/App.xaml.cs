@@ -13,7 +13,5 @@ namespace PinocchioInterface
     /// </summary>
     public partial class App : Application
     {
-
-
     }
 }
