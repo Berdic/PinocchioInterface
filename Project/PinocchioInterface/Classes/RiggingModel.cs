@@ -79,6 +79,7 @@ namespace PinocchioInterface
             set
             {
                 _scaleFactor = Math.Round(value, 2);
+                NotifyPropertyChanged("ScaleFactor");
             }
         }
 

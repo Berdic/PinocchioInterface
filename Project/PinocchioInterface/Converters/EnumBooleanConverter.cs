@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace PinocchioInterface.Controls
+namespace PinocchioInterface.Converters
 {
     public class EnumBooleanConverter : IValueConverter
     {
