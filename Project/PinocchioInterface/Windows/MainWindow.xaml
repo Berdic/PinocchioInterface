@@ -11,8 +11,8 @@
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        Title="Pinocchio GUI" Height="830" Width="700"
-        ResizeMode="CanMinimize">
+        Title="Pinocchio GUI" Height="720" Width="1280"
+        >
     <Window.DataContext>
         <viewmodel:MainWindowViewModel/>
     </Window.DataContext>
@@ -25,89 +25,41 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="1.5*"/>
-            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Grid Margin="0 5 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.2*"/>
-            </Grid.ColumnDefinitions>
+        <StackPanel Margin="0 5 0 0" VerticalAlignment="Center" >
             <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">-->
-            <Label Grid.Column="0" Content="Choose model:"/>
-            <TextBox Grid.Column="1" HorizontalAlignment="Stretch" x:Name="tbModelPath" KeyUp="tbModelPath_KeyUp">
-                <TextBox.Text>
-                    <Binding Path="ModelPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <validators:FileExistsValidator/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <Button Grid.Column="2" Width="30" HorizontalAlignment="Right" x:Name="btnBrowse"  Click="btnBrowse_Click" Background="Transparent">
-                <!--Style="{DynamicResource MetroCircleButtonStyle}"-->
-                <Rectangle Width="20"  Height="15">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_folder_open}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Button>
-        </Grid>
-        <!--<Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Height="25" Content="Browse" />-->
-        <!--</StackPanel>-->
-        <ListBox x:Name="lbModels" Margin="5" Grid.Row="1" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}" SelectedItem="{Binding SelectedRiggingModel}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel>
-                        <Label DockPanel.Dock="Left"  ToolTip="{Binding Path=Path}">
-                            <TextBlock Text="{Binding Path=Name}"/>
-                        </Label>
-                        <Button Width="30" DockPanel.Dock="Right" x:Name="btnRemove" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnRemove_Click" HorizontalAlignment="Right">
-                            <Rectangle Width="10"  Height="10">
-                                <Rectangle.Fill>
-                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_close}" />
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </Button>
-                    </DockPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
 
-        <Button Grid.Row="2" Name="btnAutorig" Click="btnAutorig_Click" Content="Autorig"   Width="60" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button.Style>
-                <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
-                    <Setter Property="IsEnabled" Value="False"/>
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbXrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbYrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbZrot}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbScaleFactor}" Value="False"/>
-                                <!--<Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbModelPath}" Value="False"/>-->
+            <DockPanel >
+                <Label  Content="Choose model:" DockPanel.Dock="Left"/>
+                
+                <Button DockPanel.Dock="Right" Width="30" HorizontalAlignment="Right" x:Name="btnBrowse"  Click="btnBrowse_Click" Background="Transparent">
+                    <!--Style="{DynamicResource MetroCircleButtonStyle}"-->
+                    <Rectangle Width="20"  Height="15">
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_folder_open}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Button>
 
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="IsEnabled" Value="True"/>
-                        </MultiDataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=lbModels, Path=Items.Count}" Value="0">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+                <TextBox  x:Name="tbModelPath" HorizontalAlignment="Stretch" KeyUp="tbModelPath_KeyUp">
+                    <TextBox.Text>
+                        <Binding Path="ModelPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:FileExistsValidator/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </DockPanel>
 
-        <!--<Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
-            
-        </Button>-->
-
-            <GroupBox Grid.Row="1" Grid.Column="1" Header="Transformation">
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+            <GroupBox  Header="Transformation">
                 <GroupBox.Style>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}" >
                         <Style.Triggers>
@@ -118,6 +70,10 @@
                     </Style>
                 </GroupBox.Style>
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13*"/>
+                        <ColumnDefinition Width="363*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
@@ -126,10 +82,10 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Rotation (degrees):" FontSize="12" FontWeight="Bold"></Label>
-                    <StackPanel VerticalAlignment="Top" Grid.Row="1"  Orientation="Horizontal">
+                    <Label Grid.Row="0" Content="Rotation (degrees):" FontSize="12" FontWeight="Bold" Grid.ColumnSpan="2"></Label>
+                    <StackPanel VerticalAlignment="Top" Grid.Row="1"  Orientation="Horizontal" Grid.ColumnSpan="2">
                         <Label FontSize="10" Content="X axis:"/>
-                        <Slider  HorizontalAlignment="Center" Margin="0 0 5 0" Maximum="359" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.XRot, Mode=TwoWay}"/>
+                        <Slider  HorizontalAlignment="Center"  Margin="0 0 5 0" Maximum="359" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.XRot, Mode=TwoWay}"/>
                         <TextBox Width="30" x:Name="tbXrot">
                             <TextBox.Text>
                                 <Binding ElementName="lbModels" Path="SelectedItem.XRot" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
@@ -140,7 +96,7 @@
                             </TextBox.Text>
                         </TextBox>
                     </StackPanel>
-                    <StackPanel  VerticalAlignment="Top" Grid.Row="2"   Orientation="Horizontal">
+                    <StackPanel  VerticalAlignment="Top" Grid.Row="2"   Orientation="Horizontal" Grid.ColumnSpan="2">
                         <Label FontSize="10" Content="Y axis:"/>
                         <Slider Maximum="359" Margin="0 0 5 0" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.YRot, Mode=TwoWay}"/>
                         <TextBox Width="30" x:Name="tbYrot">
@@ -153,7 +109,7 @@
                             </TextBox.Text>
                         </TextBox>
                     </StackPanel>
-                    <StackPanel VerticalAlignment="Top" Grid.Row="3"    Orientation="Horizontal">
+                    <StackPanel VerticalAlignment="Top" Grid.Row="3"    Orientation="Horizontal" Grid.ColumnSpan="2">
                         <Label  FontSize="10" Content="Z axis:" />
                         <Slider Maximum="359" Margin="0 0 5 0" Minimum="0" Width="160" Value="{Binding ElementName=lbModels, Path=SelectedItem.ZRot, Mode=TwoWay}"/>
                         <TextBox Width="30" x:Name="tbZrot" >
@@ -166,13 +122,13 @@
                             </TextBox.Text>
                         </TextBox>
                     </StackPanel>
-                    <Label VerticalAlignment="Bottom" Grid.Row="4" Content="Scale:" FontWeight="Bold" FontSize="12"></Label>
-                    <StackPanel Grid.Row="5" Orientation="Horizontal">
+                    <Label VerticalAlignment="Bottom" Grid.Row="4" Content="Scale:" FontWeight="Bold" FontSize="12" Grid.ColumnSpan="2"></Label>
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" Grid.ColumnSpan="2">
                         <Label FontSize="10" VerticalAlignment="Center" Content="Value:"/>
 
                         <TextBox Width="32" Height="25" x:Name="tbScaleFactor">
                             <TextBox.Text>
-                                <Binding ElementName="lbModels" Path="SelectedItem.ScaleFactor"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding ElementName="lbModels" Path="SelectedItem.ScaleFactor"  Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" StringFormat="N1">
                                     <Binding.ValidationRules>
                                         <validators:ScaleFactorValidator/>
                                     </Binding.ValidationRules>
@@ -184,7 +140,6 @@
                 </Grid>
             </GroupBox>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical">
             <GroupBox x:Name="gbSkeleton" Header="Skeleton">
                 <GroupBox.Style>
                     <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}">
@@ -257,13 +212,62 @@
                 </StackPanel>
             </GroupBox>
 
+
         </StackPanel>
 
-        <Grid Grid.Row="3" Grid.ColumnSpan="3">
-            <Helix:HelixViewport3D x:Name="myView" ZoomExtentsWhenLoaded="True">
-                <!-- Remember to add light to the scene -->
+        <!--<Button Margin="10 0 0 0" Name="btnBrowse" Click="btnBrowse_Click" Height="25" Content="Browse" />-->
+        <!--</StackPanel>-->
+        <ListBox x:Name="lbModels" Margin="5" Grid.Row="1" HorizontalContentAlignment="Stretch" ItemsSource="{Binding RiggingModels}" SelectedItem="{Binding SelectedRiggingModel}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Label DockPanel.Dock="Left"  ToolTip="{Binding Path=Path}">
+                            <TextBlock Text="{Binding Path=Name}"/>
+                        </Label>
+                        <Button Width="30" DockPanel.Dock="Right" x:Name="btnRemove" Height="30" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnRemove_Click" HorizontalAlignment="Right">
+                            <Rectangle Width="10"  Height="10">
+                                <Rectangle.Fill>
+                                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_close}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Button>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Grid.Row="2" Name="btnAutorig" Click="btnAutorig_Click" Content="Autorig"   Width="60" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource MetroButton}">
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbXrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbYrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbZrot}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbScaleFactor}" Value="False"/>
+                                <!--<Condition Binding="{Binding Path=(Validation.HasError), ElementName=tbModelPath}" Value="False"/>-->
+
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=lbModels, Path=Items.Count}" Value="0">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <!--<Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
+            
+        </Button>-->
+
+
+        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <Helix:HelixViewport3D x:Name="myView" ZoomExtentsWhenLoaded="True" ModelUpDirection="0 1 0">
                 <Helix:SunLight/>
-                <!-- You can also add elements here in the xaml -->
                 <ModelVisual3D x:Name="foo" Content="{Binding Path=SelectedRiggingModel, Mode=TwoWay, Converter={StaticResource RiggingModelTo3DModelConverter}}">
                     <ModelVisual3D.Transform>
                         <Transform3DGroup>
@@ -271,34 +275,49 @@
                                 <RotateTransform3D>
                                     <RotateTransform3D.Rotation>
 
-                                        <!-- This transformation rotates the object. -->
+                                         
                                         <AxisAngleRotation3D Axis="0,1,0" Angle="{Binding Path=SelectedRiggingModel.YRot, Mode=TwoWay}" />
                                     </RotateTransform3D.Rotation>
                                 </RotateTransform3D>
                                 <RotateTransform3D>
                                     <RotateTransform3D.Rotation>
 
-                                        <!-- This transformation rotates the object. -->
+                                         
                                         <AxisAngleRotation3D Axis="1,0,0" Angle="{Binding Path=SelectedRiggingModel.XRot, Mode=TwoWay}" />
                                     </RotateTransform3D.Rotation>
                                 </RotateTransform3D>
                                 <RotateTransform3D>
                                     <RotateTransform3D.Rotation>
 
-                                        <!-- This transformation rotates the object. -->
+                                         
                                         <AxisAngleRotation3D Axis="0,0,1" Angle="{Binding Path=SelectedRiggingModel.ZRot, Mode=TwoWay}" />
                                     </RotateTransform3D.Rotation>
                                 </RotateTransform3D>
 
-                                <!-- This Scale Transform stretches the object horizontally by 200 percent and shrinks it 
-         vertically by 50 percent. -->
+                                 
                                 <ScaleTransform3D ScaleX="{Binding Path=SelectedRiggingModel.ScaleFactor, Mode=TwoWay}" ScaleY="{Binding Path=SelectedRiggingModel.ScaleFactor, Mode=TwoWay}" ScaleZ="{Binding Path=SelectedRiggingModel.ScaleFactor, Mode=TwoWay}" CenterX="0" CenterY="0" CenterZ="0" />
                             </Transform3DGroup.Children>
                         </Transform3DGroup>
                     </ModelVisual3D.Transform>
                 </ModelVisual3D>
 
-                <Helix:GridLinesVisual3D Width="8" Length="8" MinorDistance="1" MajorDistance="1" Thickness="0.01"/>
+                <Helix:GridLinesVisual3D Width="8" Length="8" MinorDistance="1" MajorDistance="1" Thickness="0.01" >
+                    <Helix:GridLinesVisual3D.Transform>
+                        <RotateTransform3D>
+                            <RotateTransform3D.Rotation>
+
+
+                                <AxisAngleRotation3D Axis="1,0,0" Angle="90" />
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                    </Helix:GridLinesVisual3D.Transform>
+                </Helix:GridLinesVisual3D>
+                
+                <Helix:CoordinateSystemVisual3D/>
+
+                <Helix:HelixViewport3D.Camera >
+                    <PerspectiveCamera Position="0 5 10" LookDirection="0 -1 -2"/>
+                </Helix:HelixViewport3D.Camera>
             </Helix:HelixViewport3D>
         </Grid>
     </Grid>

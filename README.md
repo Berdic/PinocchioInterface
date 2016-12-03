@@ -10,7 +10,6 @@ you will need preinstalled Microsoft Visual Studio. Application is developed in
 Visual Studio 2015 like a WPF C# project. My recommendation is to install the free community version 
 (VS 2015 download link -> https://www.visualstudio.com/downloads/),
 open the .sln file -> right click on Solution in the Solution Explorer inside VS -> click Rebuild.
-Application .exe will be placed in the default bin subfolder and in the Application [platform] root subfolder.
 Research subfolder contains science work regarding Pinocchio library and the developed Application.
 Currently it is on Serbian language.
 

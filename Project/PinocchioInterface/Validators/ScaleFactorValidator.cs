@@ -21,9 +21,9 @@ namespace PinocchioInterface.Validators
             if (factor == "")
                 return new ValidationResult(false, "Field needs to be a decimal number.");
 
-            if (System.Text.RegularExpressions.Regex.IsMatch(factor, "^[0-9]*([.,][0-9]*)?$"))
+            if (System.Text.RegularExpressions.Regex.IsMatch(factor, "^[0-9]+([.,][0-9]*)?$"))
             {
-                if (System.Text.RegularExpressions.Regex.IsMatch(factor, "^0+$"))
+                if (System.Text.RegularExpressions.Regex.IsMatch(factor, "^0+[.,]*0*$")) 
                     return new ValidationResult(false, "Scale factor can't be 0.");
                 else
                     return new ValidationResult(true, null);

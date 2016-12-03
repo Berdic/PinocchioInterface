@@ -11,11 +11,6 @@ IF  [%3] == x86 (
 	xcopy "%1Resources\Pinocchio\" "%1PinocchioInterface\bin\%2\Pinocchio" /Y /E /R /I /D
 	xcopy "%1Resources\Pinocchio\*.*" "%1PinocchioInterface\bin\%2\Pinocchio" /Y /E
 	
-		ECHO Application x86 folder
-		
-		MD "%1..\Application %3"
-		xcopy "%1PinocchioInterface\bin\%3\%2\" "%1..\Application %3\"/Y /E /R /I /D
-		xcopy "%1PinocchioInterface\bin\%3\%2\*.*" "%1.\Application %3\"/Y /E
 	
 ) ELSE (
 
@@ -25,9 +20,5 @@ IF  [%3] == x86 (
 	xcopy "%1Resources\Pinocchio\" "%1PinocchioInterface\bin\%3\%2\Pinocchio\" /Y /E /R /I /D
 	xcopy "%1Resources\Pinocchio\*.*" "%1PinocchioInterface\bin\%3\%2\Pinocchio\" /Y /E
 	
-		ECHO Application x64 folder
-		
-		MD "%1..\Application %3"
-		xcopy "%1PinocchioInterface\bin\%3\%2\" "%1..\Application %3\"/Y /E /R /I /D
-		xcopy "%1PinocchioInterface\bin\%3\%2\*.*" "%1..\Application %3\"/Y /E
+	
 )
