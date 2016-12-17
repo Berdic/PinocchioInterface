@@ -1,9 +1,12 @@
-﻿using System;
+﻿using PinocchioInterface.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Media3D;
 
 namespace PinocchioInterface
 {
@@ -19,16 +22,26 @@ namespace PinocchioInterface
 
         private Motion _motion;
         private Skeleton _skeleton;
+        
+        private Model3DGroup _visualModel;
 
         public RiggingModel(string path)
         {
-            XRot = 0;
-            YRot = 0;
-            ZRot = 0;
-            ScaleFactor = 1;
-            Path = path;
-            Motion = Motion.None;
-            Skeleton = Skeleton.Human;
+            if (File.Exists(path))
+            {
+                Path = path;
+                XRot = 0;
+                YRot = 0;
+                ZRot = 0;
+                ScaleFactor = 1;
+                Motion = Motion.None;
+                Skeleton = Skeleton.Human;
+
+                VisualModel visualModel = new VisualModel(Path);
+                VisualModel = visualModel.Model3DGroup;
+            }
+            else
+                throw new FileNotFoundException("File doesn't exist!");
         }
 
         /// <summary>
@@ -138,6 +151,16 @@ namespace PinocchioInterface
         {
             get { return _skeleton; }
             set { _skeleton = value; NotifyPropertyChanged("Skeleton"); }
+        }
+
+
+        /// <summary>
+        /// Model shown in interface
+        /// </summary>
+        public Model3DGroup VisualModel
+        {
+            get { return _visualModel; }
+            set { _visualModel = value; NotifyPropertyChanged("VisualModel"); }
         }
 
 

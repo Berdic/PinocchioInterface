@@ -8,6 +8,7 @@
         xmlns:validators ="clr-namespace:PinocchioInterface.Validators"
         xmlns:viewmodel="clr-namespace:PinocchioInterface.ViewModel"
         xmlns:Helix ="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
+        xmlns:classes ="clr-namespace:PinocchioInterface.Classes"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -268,7 +269,7 @@
         <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
             <Helix:HelixViewport3D x:Name="myView" ZoomExtentsWhenLoaded="True" ModelUpDirection="0 1 0">
                 <Helix:SunLight/>
-                <ModelVisual3D x:Name="foo" Content="{Binding Path=SelectedRiggingModel, Mode=TwoWay, Converter={StaticResource RiggingModelTo3DModelConverter}}">
+                <ModelVisual3D x:Name="foo" Content="{Binding Path=SelectedRiggingModel.VisualModel, Mode=TwoWay}">
                     <ModelVisual3D.Transform>
                         <Transform3DGroup>
                             <Transform3DGroup.Children>

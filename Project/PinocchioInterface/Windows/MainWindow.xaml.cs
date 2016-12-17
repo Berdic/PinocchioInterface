@@ -19,7 +19,7 @@ using System.Diagnostics;
 using System.Collections.ObjectModel;
 using PinocchioInterface.ViewModel;
 using MahApps.Metro.Controls;
-
+using PinocchioInterface.Classes;
 
 namespace PinocchioInterface.Windows
 {
