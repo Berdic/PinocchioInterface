@@ -55,16 +55,10 @@ namespace PinocchioInterface.Classes
             Rect3D rectangle = Model3DGroup.Children[Model3DGroup.Children.Count - 1].Bounds;
 
             double y_transform_value = rectangle.Y + rectangle.SizeY / 2;
-            double y_transform = rectangle.Y > 0 ? -y_transform_value : y_transform_value;
-
             double x_transform_value = rectangle.X + rectangle.SizeX / 2;
-            double x_transform = rectangle.X > 0 ? -x_transform_value : x_transform_value;
-
             double z_transform_value = rectangle.Z + rectangle.SizeZ / 2;
-            double z_transform = rectangle.Z > 0 ? -x_transform_value : x_transform_value;
 
-
-            Model3DGroup.Transform = new TranslateTransform3D(x_transform, y_transform, z_transform);
+            Model3DGroup.Transform = new TranslateTransform3D(-x_transform_value, -y_transform_value, -z_transform_value);
         }
     }
 }

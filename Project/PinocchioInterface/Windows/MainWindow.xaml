@@ -19,7 +19,6 @@
     </Window.DataContext>
     <Window.Resources>
         <converters:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
-        <converters:RiggingModelTo3DModelConverter x:Key="RiggingModelTo3DModelConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

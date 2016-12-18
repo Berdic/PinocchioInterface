@@ -117,7 +117,6 @@
     </ApplicationDefinition>
     <Compile Include="Classes\RiggingModel.cs" />
     <Compile Include="Classes\VisualModel.cs" />
-    <Compile Include="Converters\RiggingModelTo3DModelConverter.cs" />
     <Compile Include="Validators\FileExistsValidator.cs" />
     <Compile Include="Validators\ScaleFactorValidator.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
