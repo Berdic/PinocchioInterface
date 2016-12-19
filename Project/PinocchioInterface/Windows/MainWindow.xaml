@@ -9,6 +9,7 @@
         xmlns:viewmodel="clr-namespace:PinocchioInterface.ViewModel"
         xmlns:Helix ="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
         xmlns:classes ="clr-namespace:PinocchioInterface.Classes"
+        xmlns:controls="clr-namespace:PinocchioInterface.Controls"
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -34,7 +35,7 @@
         <StackPanel Margin="0 5 0 0" VerticalAlignment="Center" >
             <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">-->
 
-            <DockPanel >
+            <DockPanel>
                 <Label  Content="Choose model:" DockPanel.Dock="Left"/>
                 
                 <Button DockPanel.Dock="Right" Width="30" HorizontalAlignment="Right" x:Name="btnBrowse"  Click="btnBrowse_Click" Background="Transparent">
@@ -46,7 +47,7 @@
                     </Rectangle>
                 </Button>
 
-                <TextBox  x:Name="tbModelPath" HorizontalAlignment="Stretch" KeyUp="tbModelPath_KeyUp">
+                <TextBox  x:Name="tbModelPath" HorizontalAlignment="Stretch" KeyUp="tbModelPath_KeyUp" Margin="0 0 5 0">
                     <TextBox.Text>
                         <Binding Path="ModelPath" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -266,59 +267,8 @@
 
 
         <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
-            <Helix:HelixViewport3D x:Name="myView" ZoomExtentsWhenLoaded="True" ModelUpDirection="0 1 0">
-                <Helix:SunLight/>
-                <ModelVisual3D x:Name="foo" Content="{Binding Path=SelectedRiggingModel.VisualModel, Mode=TwoWay}">
-                    <ModelVisual3D.Transform>
-                        <Transform3DGroup>
-                            <Transform3DGroup.Children>
-                                <RotateTransform3D>
-                                    <RotateTransform3D.Rotation>
-
-                                         
-                                        <AxisAngleRotation3D Axis="0,1,0" Angle="{Binding Path=SelectedRiggingModel.YRot, Mode=TwoWay}" />
-                                    </RotateTransform3D.Rotation>
-                                </RotateTransform3D>
-                                <RotateTransform3D>
-                                    <RotateTransform3D.Rotation>
-
-                                         
-                                        <AxisAngleRotation3D Axis="1,0,0" Angle="{Binding Path=SelectedRiggingModel.XRot, Mode=TwoWay}" />
-                                    </RotateTransform3D.Rotation>
-                                </RotateTransform3D>
-                                <RotateTransform3D>
-                                    <RotateTransform3D.Rotation>
-
-                                         
-                                        <AxisAngleRotation3D Axis="0,0,1" Angle="{Binding Path=SelectedRiggingModel.ZRot, Mode=TwoWay}" />
-                                    </RotateTransform3D.Rotation>
-                                </RotateTransform3D>
-
-                                 
-                                <ScaleTransform3D ScaleX="{Binding Path=SelectedRiggingModel.ScaleFactor, Mode=TwoWay}" ScaleY="{Binding Path=SelectedRiggingModel.ScaleFactor, Mode=TwoWay}" ScaleZ="{Binding Path=SelectedRiggingModel.ScaleFactor, Mode=TwoWay}" CenterX="0" CenterY="0" CenterZ="0" />
-                            </Transform3DGroup.Children>
-                        </Transform3DGroup>
-                    </ModelVisual3D.Transform>
-                </ModelVisual3D>
-
-                <Helix:GridLinesVisual3D Width="8" Length="8" MinorDistance="1" MajorDistance="1" Thickness="0.01" >
-                    <Helix:GridLinesVisual3D.Transform>
-                        <RotateTransform3D>
-                            <RotateTransform3D.Rotation>
-
-
-                                <AxisAngleRotation3D Axis="1,0,0" Angle="90" />
-                            </RotateTransform3D.Rotation>
-                        </RotateTransform3D>
-                    </Helix:GridLinesVisual3D.Transform>
-                </Helix:GridLinesVisual3D>
-                
-                <Helix:CoordinateSystemVisual3D/>
-
-                <Helix:HelixViewport3D.Camera >
-                    <PerspectiveCamera Position="0 5 10" LookDirection="0 -1 -2"/>
-                </Helix:HelixViewport3D.Camera>
-            </Helix:HelixViewport3D>
+            <controls:RiggingViewPort3D  x:Name="riggingModelViewPortControl" RiggingModel="{Binding Path=SelectedRiggingModel}" />
         </Grid>
+        <!---->
     </Grid>
 </Controls:MetroWindow>

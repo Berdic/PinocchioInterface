@@ -117,9 +117,16 @@
     </ApplicationDefinition>
     <Compile Include="Classes\RiggingModel.cs" />
     <Compile Include="Classes\VisualModel.cs" />
+    <Compile Include="Controls\RiggingViewPort3D.xaml.cs">
+      <DependentUpon>RiggingViewPort3D.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validators\FileExistsValidator.cs" />
     <Compile Include="Validators\ScaleFactorValidator.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Page Include="Controls\RiggingViewPort3D.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -130,6 +137,7 @@
     </Compile>
     <Compile Include="Validators\DegreesValidator.cs" />
     <Compile Include="Converters\EnumBooleanConverter.cs" />
+    <Compile Include="ViewModel\RiggingViewPort3DViewModel.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -178,9 +186,7 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(SolutionDir)PostBuild.Bat $(SolutionDir) $(ConfigurationName) $(PlatformName)</PostBuildEvent>

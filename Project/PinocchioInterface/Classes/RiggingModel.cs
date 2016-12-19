@@ -38,7 +38,7 @@ namespace PinocchioInterface
                 Skeleton = Skeleton.Human;
 
                 VisualModel visualModel = new VisualModel(Path);
-                VisualModel = visualModel.Model3DGroup;
+                ModelsOnScreen = visualModel.Model3DGroup;
             }
             else
                 throw new FileNotFoundException("File doesn't exist!");
@@ -157,7 +157,7 @@ namespace PinocchioInterface
         /// <summary>
         /// Model shown in interface
         /// </summary>
-        public Model3DGroup VisualModel
+        public Model3DGroup ModelsOnScreen
         {
             get { return _visualModel; }
             set { _visualModel = value; NotifyPropertyChanged("VisualModel"); }

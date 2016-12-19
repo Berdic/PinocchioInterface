@@ -28,12 +28,12 @@ namespace PinocchioInterface.Windows
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private MainWindowViewModel viewModel;
+        private MainWindowViewModel _viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            viewModel = (MainWindowViewModel)DataContext;
+            _viewModel = (MainWindowViewModel)DataContext;
 
             //ViewWindow vw = new ViewWindow();
             //vw.Show();
@@ -43,7 +43,7 @@ namespace PinocchioInterface.Windows
 
         private void btnAutorig_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.AutoRig();
+            _viewModel.AutoRig();
         }
 
         private void btnBrowse_Click(object sender, RoutedEventArgs e)
@@ -54,16 +54,16 @@ namespace PinocchioInterface.Windows
             {
                 foreach (string selectedPath in openFileDialog.FileNames)
                 {
-                    if(!viewModel.IsAlreadyInList(selectedPath))
-                        viewModel.AddModel(selectedPath);
+                    if(!_viewModel.IsAlreadyInList(selectedPath))
+                        _viewModel.AddModel(selectedPath);
                 }
             }
         }
 
         private void tbModelPath_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && !Validation.GetHasError(sender as DependencyObject) && !viewModel.IsAlreadyInList())
-                viewModel.AddModel();
+            if (e.Key == Key.Enter && !Validation.GetHasError(sender as DependencyObject) && !_viewModel.IsAlreadyInList())
+                _viewModel.AddModel();
         }
 
         private OpenFileDialog CreateFileDialogForModelSelection()
@@ -82,7 +82,12 @@ namespace PinocchioInterface.Windows
         {
             Button button = sender as Button;
             var riggingModel = button.DataContext;
-            viewModel.RemoveModel((RiggingModel)riggingModel);
+            _viewModel.RemoveModel((RiggingModel)riggingModel);
         }
+
+        //private void lbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    riggingModelViewPortControl.RiggingModel = _viewModel.SelectedRiggingModel;
+        //}
     }
 }

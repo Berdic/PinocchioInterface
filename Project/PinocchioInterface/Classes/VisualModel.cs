@@ -24,7 +24,7 @@ namespace PinocchioInterface.Classes
                 ApplyTranslation();
             }
             else
-                throw new FileNotFoundException("File not found.");
+                throw new FileNotFoundException("File doesn't exist!");
         }
 
         private string _path;
