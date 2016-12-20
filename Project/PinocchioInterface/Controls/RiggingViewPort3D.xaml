@@ -7,15 +7,12 @@
              xmlns:Helix ="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
              xmlns:viewmodels="clr-namespace:PinocchioInterface.ViewModel"
              mc:Ignorable="d" x:Name="thisControl">
-    <!--<UserControl.DataContext>
-        <viewmodels:RiggingViewPort3DViewModel />
-    </UserControl.DataContext>-->
-    
+
+
     <Grid>
-        <!--Label Content="{Binding ModelName}"-->
         <Helix:HelixViewport3D x:Name="myView" ZoomExtentsWhenLoaded="True" ModelUpDirection="0 1 0">
             <Helix:SunLight/>
-            <ModelVisual3D x:Name="foo" Content="{Binding Path=RiggingModel.ModelsOnScreen, ElementName=thisControl}">
+            <ModelVisual3D x:Name="foo" Content="{Binding Path=RiggingModel.ModelsOnScreen.Model3DGroup, ElementName=thisControl}">
                 <ModelVisual3D.Transform>
                     <Transform3DGroup>
                         <Transform3DGroup.Children>
@@ -42,29 +39,31 @@
                             </RotateTransform3D>
 
 
-                            <!--<ScaleTransform3D ScaleX="{Binding Path=RiggingModel.ScaleFactor}" ScaleY="{Binding Path=RiggingModel.ScaleFactor}" ScaleZ="{Binding Path=RiggingModel.ScaleFactor}" CenterX="0" CenterY="0" CenterZ="0" />-->
+
+                            <ScaleTransform3D ScaleX="{Binding Path=RiggingModel.ModelsOnScreen.ScaleFactorGrid, ElementName=thisControl}"
+                                          ScaleZ="{Binding Path=RiggingModel.ModelsOnScreen.ScaleFactorGrid, ElementName=thisControl}" 
+                                          ScaleY="{Binding Path=RiggingModel.ModelsOnScreen.ScaleFactorGrid, ElementName=thisControl}"/>
                         </Transform3DGroup.Children>
                     </Transform3DGroup>
                 </ModelVisual3D.Transform>
             </ModelVisual3D>
 
-            <Helix:GridLinesVisual3D Width="10" Length="10" MinorDistance="1" MajorDistance="1" Thickness="0.01">
+            <Helix:GridLinesVisual3D Width="10" Length="10" MinorDistance="1" MajorDistance="1" Thickness="0.01" x:Name="gridLinesFloor">
                 <Helix:GridLinesVisual3D.Transform>
-                    <Transform3DGroup>
+                    <Transform3DGroup x:Name="gridLinesTransformGroup">
                         <RotateTransform3D>
                             <RotateTransform3D.Rotation>
                                 <AxisAngleRotation3D Axis="1,0,0" Angle="90" />
                             </RotateTransform3D.Rotation>
                         </RotateTransform3D>
-                        <!--<TranslateTransform3D OffsetY ="10"/>-->
+                        <TranslateTransform3D OffsetY="-0.5"/>
                     </Transform3DGroup>
                 </Helix:GridLinesVisual3D.Transform>
             </Helix:GridLinesVisual3D>
 
-            <Helix:CoordinateSystemVisual3D/>
 
             <Helix:HelixViewport3D.Camera >
-                <PerspectiveCamera Position="0 5 10" LookDirection="0 -1 -2"/>
+                <PerspectiveCamera Position="0,1,2" LookDirection="0 -1 -2"/>
             </Helix:HelixViewport3D.Camera>
         </Helix:HelixViewport3D>
     </Grid>

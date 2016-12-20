@@ -27,21 +27,27 @@ namespace PinocchioInterface.Controls
         public RiggingViewPort3D()
         {
             InitializeComponent();
+            
         }
         
-
 
         public RiggingModel RiggingModel
         {
             get { return (RiggingModel)GetValue(RiggingModelProperty); }
-            set { SetValue(RiggingModelProperty, value); }
+            set
+            {
+                SetValue(RiggingModelProperty, value);
+            }
         }
 
         // Using a DependencyProperty as the backing store for RiggingModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RiggingModelProperty =
-            DependencyProperty.Register("RiggingModel", typeof(RiggingModel), typeof(RiggingViewPort3D), new FrameworkPropertyMetadata(
-            null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        
-        
+            DependencyProperty.Register("RiggingModel", typeof(RiggingModel), typeof(RiggingViewPort3D), new PropertyMetadata(
+            null, OnPropertyChanged));
+
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            
+        }
     }
 }

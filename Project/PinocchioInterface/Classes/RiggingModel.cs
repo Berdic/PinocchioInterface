@@ -23,7 +23,7 @@ namespace PinocchioInterface
         private Motion _motion;
         private Skeleton _skeleton;
         
-        private Model3DGroup _visualModel;
+        private VisualModel _visualModel;
 
         public RiggingModel(string path)
         {
@@ -37,8 +37,7 @@ namespace PinocchioInterface
                 Motion = Motion.None;
                 Skeleton = Skeleton.Human;
 
-                VisualModel visualModel = new VisualModel(Path);
-                ModelsOnScreen = visualModel.Model3DGroup;
+                ModelsOnScreen = new VisualModel(Path);
             }
             else
                 throw new FileNotFoundException("File doesn't exist!");
@@ -157,10 +156,10 @@ namespace PinocchioInterface
         /// <summary>
         /// Model shown in interface
         /// </summary>
-        public Model3DGroup ModelsOnScreen
+        public VisualModel ModelsOnScreen
         {
             get { return _visualModel; }
-            set { _visualModel = value; NotifyPropertyChanged("VisualModel"); }
+            set { _visualModel = value; NotifyPropertyChanged("ModelsOnScreen"); }
         }
 
 

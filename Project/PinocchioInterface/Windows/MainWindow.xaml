@@ -13,7 +13,7 @@
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        Title="Pinocchio GUI" Height="720" Width="1280"
+        Title="Pinocchio GUI" Height="720" Width="1280" SaveWindowPosition="True" WindowStartupLocation="CenterScreen"
         >
     <Window.DataContext>
         <viewmodel:MainWindowViewModel/>
@@ -261,9 +261,6 @@
             </Button.Style>
         </Button>
 
-        <!--<Button Grid.Row="3" Name="btnAutorig" Click="btnAutorig_Click"  Height="25" Content="Autorig" VerticalAlignment="Center" HorizontalAlignment="Center">
-            
-        </Button>-->
 
 
         <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
