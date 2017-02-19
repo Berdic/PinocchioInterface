@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PinocchioInterface.Controls"
              xmlns:Helix ="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
-             xmlns:viewmodels="clr-namespace:PinocchioInterface.ViewModel"
              mc:Ignorable="d" x:Name="thisControl">
 
 
     <Grid>
-        <Helix:HelixViewport3D x:Name="myView" ZoomExtentsWhenLoaded="True" ModelUpDirection="0 1 0">
+        <Helix:HelixViewport3D x:Name="myView" ZoomExtentsWhenLoaded="True" ModelUpDirection="0 1 0"  >
+            
             <Helix:SunLight/>
             <ModelVisual3D x:Name="foo" Content="{Binding Path=RiggingModel.ModelsOnScreen.Model3DGroup, ElementName=thisControl}">
                 <ModelVisual3D.Transform>
@@ -20,7 +20,7 @@
                                 <RotateTransform3D.Rotation>
 
 
-                                    <AxisAngleRotation3D Axis="0,1,0" Angle="{Binding Path=RiggingModel.YRot,ElementName=thisControl}" />
+                                    <AxisAngleRotation3D Axis="0,1,0" Angle="{Binding Path=RiggingModel.YRot, ElementName=thisControl}" />
                                 </RotateTransform3D.Rotation>
                             </RotateTransform3D>
                             <RotateTransform3D>
@@ -61,6 +61,7 @@
                 </Helix:GridLinesVisual3D.Transform>
             </Helix:GridLinesVisual3D>
 
+            <Helix:PointsVisual3D Points="{Binding Path=RiggingModel.ModelsOnScreen.Joints, ElementName=thisControl}" Size="5" />
 
             <Helix:HelixViewport3D.Camera >
                 <PerspectiveCamera Position="0,1,2" LookDirection="0 -1 -2"/>

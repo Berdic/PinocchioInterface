@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using PinocchioInterface.ViewModel;
 using MahApps.Metro.Controls;
 using PinocchioInterface.Classes;
+using System.Runtime.InteropServices;
 
 namespace PinocchioInterface.Windows
 {
@@ -34,60 +35,23 @@ namespace PinocchioInterface.Windows
         {
             InitializeComponent();
             _viewModel = (MainWindowViewModel)DataContext;
-
-            //ViewWindow vw = new ViewWindow();
-            //vw.Show();
         }
-
-
-
-        private void btnAutorig_Click(object sender, RoutedEventArgs e)
-        {
-            _viewModel.AutoRig();
-        }
-
-        private void btnBrowse_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = CreateFileDialogForModelSelection();
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                foreach (string selectedPath in openFileDialog.FileNames)
-                {
-                    if(!_viewModel.IsAlreadyInList(selectedPath))
-                        _viewModel.AddModel(selectedPath);
-                }
-            }
-        }
+        
 
         private void tbModelPath_KeyUp(object sender, KeyEventArgs e)
         {
+            //If pressed key is enter, there are no errors in file path and the model is not in the list, add model
             if (e.Key == Key.Enter && !Validation.GetHasError(sender as DependencyObject) && !_viewModel.IsAlreadyInList())
                 _viewModel.AddModel();
         }
-
-        private OpenFileDialog CreateFileDialogForModelSelection()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.Title = "Choose model for autorigging";
-            openFileDialog.Filter = "OBJ files (*.obj)|*.obj|PLY files (*.ply)|*.ply|OFF files (*.off)|*.off|GTS files (*.gts)|*.gts|STL files (*.stl)|*.stl";
-            openFileDialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Pinocchio");
-            openFileDialog.Multiselect = true;
-
-            return openFileDialog;
-        }
-
+        
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             var riggingModel = button.DataContext;
             _viewModel.RemoveModel((RiggingModel)riggingModel);
         }
-
-        //private void lbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    riggingModelViewPortControl.RiggingModel = _viewModel.SelectedRiggingModel;
-        //}
+        
+        
     }
 }

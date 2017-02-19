@@ -66,6 +66,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -115,14 +116,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Joint.cs" />
     <Compile Include="Classes\RiggingModel.cs" />
     <Compile Include="Classes\VisualModel.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Controls\ProgressControl.xaml.cs">
+      <DependentUpon>ProgressControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RiggingViewPort3D.xaml.cs">
       <DependentUpon>RiggingViewPort3D.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validators\FileExistsValidator.cs" />
-    <Compile Include="Validators\ScaleFactorValidator.cs" />
+    <Compile Include="Classes\Helper\Validators\FileExistsValidator.cs" />
+    <Compile Include="Classes\Helper\Validators\ScaleFactorValidator.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Page Include="Controls\ProgressControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RiggingViewPort3D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -135,9 +145,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Validators\DegreesValidator.cs" />
-    <Compile Include="Converters\EnumBooleanConverter.cs" />
-    <Compile Include="ViewModel\RiggingViewPort3DViewModel.cs" />
+    <Compile Include="Classes\Helper\Validators\DegreesValidator.cs" />
+    <Compile Include="Classes\Helper\Converters\EnumBooleanConverter.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

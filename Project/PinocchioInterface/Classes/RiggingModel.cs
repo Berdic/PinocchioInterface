@@ -25,22 +25,34 @@ namespace PinocchioInterface
         
         private VisualModel _visualModel;
 
+        private List<Joint> _joints;
+
         public RiggingModel(string path)
         {
-            if (File.Exists(path))
-            {
-                Path = path;
-                XRot = 0;
-                YRot = 0;
-                ZRot = 0;
-                ScaleFactor = 1;
-                Motion = Motion.None;
-                Skeleton = Skeleton.Human;
+           
+            Path = path;
+            XRot = 0;
+            YRot = 0;
+            ZRot = 0;
+            ScaleFactor = 1;
+            Motion = Motion.None;
+            Skeleton = Skeleton.Human;
 
-                ModelsOnScreen = new VisualModel(Path);
+            Joints = new List<Joint>();
+            
+
+            ModelsOnScreen = new VisualModel(Path);
+        }
+
+
+        public List<Joint> Joints
+        {
+            get { return _joints; }
+            set
+            {
+                _joints = value;
+                NotifyPropertyChanged("Joints");
             }
-            else
-                throw new FileNotFoundException("File doesn't exist!");
         }
 
         /// <summary>
@@ -162,71 +174,77 @@ namespace PinocchioInterface
             set { _visualModel = value; NotifyPropertyChanged("ModelsOnScreen"); }
         }
 
+        //TODO: If not using anymore, delet this.
+        ////public string GetCommandLineArguments(string motionFolder)
+        ////{
+        ////    string[] parameters = new string[7];
+        ////    parameters[0] = GetPathForCmd();
+        ////    parameters[1] = GetXRotForCmd();
+        ////    parameters[2] = GetYRotForCmd();
+        ////    parameters[3] = GetZRotForCmd();
+        ////    parameters[4] = GetScaleFactorCmd();
 
-        public string GetCommandLineArguments(string motionFolder)
-        {
-            string[] parameters = new string[7];
-            parameters[0] = GetPathForCmd();
-            parameters[1] = GetXRotForCmd();
-            parameters[2] = GetYRotForCmd();
-            parameters[3] = GetZRotForCmd();
-            parameters[4] = GetScaleFactorCmd();
+        ////    parameters[5] = GetMotionForCmd(motionFolder);
+        ////    parameters[6] = GetSkeletonCmd();
+        ////    return String.Join(" ", parameters);
+        ////}
 
-            parameters[5] = GetMotionForCmd(motionFolder);
-            parameters[6] = GetSkeletonCmd();
-            return String.Join(" ", parameters);
-        }
+        //TODO: If not using anymore, delet this.
+        ////private string GetMotionForCmd(string motionFolder)
+        ////{
+        ////    switch (Motion)
+        ////    {
+        ////        case Motion.Jump:
+        ////            return "-motion " + System.IO.Path.Combine(motionFolder, "jumpAround.txt");
 
+        ////        case Motion.Walk:
+        ////            return "-motion " + System.IO.Path.Combine(motionFolder, "walk.txt");
 
-        private string GetMotionForCmd(string motionFolder)
-        {
-            switch (Motion)
-            {
-                case Motion.Jump:
-                    return "-motion " + System.IO.Path.Combine(motionFolder, "jumpAround.txt");
+        ////        case Motion.Run:
+        ////            return "-motion " + System.IO.Path.Combine(motionFolder, "runAround.txt");
+        ////    }
 
-                case Motion.Walk:
-                    return "-motion " + System.IO.Path.Combine(motionFolder, "walk.txt");
+        ////    return "";
+        ////}
 
-                case Motion.Run:
-                    return "-motion " + System.IO.Path.Combine(motionFolder, "runAround.txt");
-            }
+        //TODO: If not using anymore, delet this.
+        ////private string GetSkeletonCmd()
+        ////{
+        ////    return "-skel " + Skeleton.ToString().ToLower();
+        ////}
 
-            return "";
-        }
+        //TODO: If not using anymore, delet this.
+        ////private string GetScaleFactorCmd()
+        ////{
+        ////    return "-scale " + ScaleFactor;
+        ////}
 
-        private string GetSkeletonCmd()
-        {
-            return "-skel " + Skeleton.ToString().ToLower();
-        }
+        //TODO: If not using anymore, delet this.
+        ////private string GetZRotForCmd()
+        ////{
+        ////    return "-rot 0 0 1 " + ZRot;
+        ////}
 
-        private string GetScaleFactorCmd()
-        {
-            return "-scale " + ScaleFactor;
-        }
+        //TODO: If not using anymore, delet this.
+        ////private string GetYRotForCmd()
+        ////{
+        ////    return "-rot 0 1 0 " + YRot;
+        ////}
 
-        private string GetZRotForCmd()
-        {
-            return "-rot 0 0 1 " + ZRot;
-        }
+        //TODO: If not using anymore, delet this.
+        ////private string GetXRotForCmd()
+        ////{
+        ////    return "-rot 1 0 0 " + XRot;
+        ////}
 
-        private string GetYRotForCmd()
-        {
-            return "-rot 0 1 0 " + YRot;
-        }
-
-        private string GetXRotForCmd()
-        {
-            return "-rot 1 0 0 " + XRot;
-        }
-
-        private string GetPathForCmd()
-        {
-            return "\"" + Path + "\"";
-        }
+        //TODO: If not using anymore, delet this.
+        ////private string GetPathForCmd()
+        ////{
+        ////    return "\"" + Path + "\"";
+        ////}
 
 
-
+        #region INotifyPropertyChanged implentation
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string propertyName = "")
@@ -237,7 +255,11 @@ namespace PinocchioInterface
             }
         }
 
+
+        #endregion
     }
+
+
 
 
     public enum Motion

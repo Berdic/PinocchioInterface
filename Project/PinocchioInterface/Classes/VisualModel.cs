@@ -9,6 +9,9 @@ using System.Windows.Media.Media3D;
 
 namespace PinocchioInterface.Classes
 {
+    /// <summary>
+    /// Class represents visual representation of a model. Its all visual elements.
+    /// </summary>
     public class VisualModel
     {
         /// <summary>
@@ -19,13 +22,14 @@ namespace PinocchioInterface.Classes
         {
             Path = path;
             SetVisualModelGroup();
-
-
+            
             Rect3D rectangle = Model3DGroup.Children[Model3DGroup.Children.Count - 1].Bounds;
             ApplyTranslation(rectangle);
-
-            ScaleFactorGrid = 1 / rectangle.SizeY;
             
+            ScaleFactorGrid = 1 / rectangle.SizeY;
+
+            Joints = new Point3DCollection();
+
         }
         
         private double _scaleFactorGrid;
@@ -46,9 +50,8 @@ namespace PinocchioInterface.Classes
             get { return _model3DGroup; }
             set { _model3DGroup = value; }
         }
-        
 
-
+        public Point3DCollection Joints { get; set; }
 
         private void SetVisualModelGroup()
         {
@@ -66,6 +69,14 @@ namespace PinocchioInterface.Classes
             Model3DGroup.Transform = new TranslateTransform3D(-x_transform_value, -y_transform_value, -z_transform_value);
         }
         
-        
+        public bool SetJoints(List<Joint> joints)
+        {
+            foreach (var item in joints)
+            {
+                Joints.Add(new Point3D(item.X, item.Y, item.Z));
+            }
+
+            return true;
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows;
 
 namespace PinocchioInterface
 {
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

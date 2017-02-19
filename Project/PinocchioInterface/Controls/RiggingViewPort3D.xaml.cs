@@ -27,7 +27,6 @@ namespace PinocchioInterface.Controls
         public RiggingViewPort3D()
         {
             InitializeComponent();
-            
         }
         
 
