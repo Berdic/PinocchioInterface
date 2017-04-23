@@ -184,7 +184,7 @@ namespace PinocchioInterface.ViewModel
             SelectedRiggingModel.Joints.ForEach(dot =>
             {
                 System.Windows.Media.Media3D.Point3D point = new System.Windows.Media.Media3D.Point3D(dot.X, dot.Y, dot.Z);
-                SelectedRiggingModel.ModelsOnScreen.Joints.Add(point);
+                SelectedRiggingModel.VisualJoints.Add(point);
             });
         }
 
@@ -258,7 +258,7 @@ namespace PinocchioInterface.ViewModel
             //setting status
             RiggingProgressStatus = "Configuration...";
             //setting progress bar to 0
-            RiggingProgressValue = 5;
+            RiggingProgressValue = 10;
             //reinitializing cancellation token
             _cts = new CancellationTokenSource();
         }
@@ -277,51 +277,51 @@ namespace PinocchioInterface.ViewModel
             {
                 case 1:
                     RiggingProgressStatus = "Configuration...";
-                    RiggingProgressValue = 4;
+                    RiggingProgressValue = 8;
                     break;
                 case 2:
                     RiggingProgressStatus = "Mesh preparing...";
-                    RiggingProgressValue += 3;
+                    RiggingProgressValue += 6;
                     break;
                 case 3:
                     RiggingProgressStatus = "Construction of distance field...";
-                    RiggingProgressValue += 2;
+                    RiggingProgressValue += 4;
                     break;
                 case 4:
                     RiggingProgressStatus = "Discretization...";
-                    RiggingProgressValue += 35;
+                    RiggingProgressValue += 70;
                     break;
                 case 5:
                     RiggingProgressStatus = "Sphere packing phase...";
-                    RiggingProgressValue += 30;
+                    RiggingProgressValue += 60;
                     break;
                 case 6:
                     RiggingProgressStatus = "Connecting samples...";
-                    RiggingProgressValue += 2;
+                    RiggingProgressValue += 4;
                     break;
                 case 7:
                     RiggingProgressStatus = "Computing possibilities...";
-                    RiggingProgressValue += 5;
+                    RiggingProgressValue += 10;
                     break;
                 case 8:
                     RiggingProgressStatus = "Discrete embedding...";
-                    RiggingProgressValue += 2;
+                    RiggingProgressValue += 4;
                     break;
                 case 9:
                     RiggingProgressStatus = "Path splitting...";
-                    RiggingProgressValue += 5;
+                    RiggingProgressValue += 10;
                     break;
                 case 10:
                     RiggingProgressStatus = "Medial surface...";
-                    RiggingProgressValue += 5;
+                    RiggingProgressValue += 10;
                     break;
                 case 11:
                     RiggingProgressStatus = "Refine embedding...";
-                    RiggingProgressValue += 2;
+                    RiggingProgressValue += 4;
                     break;
                 case 12:
                     RiggingProgressStatus = "Finishing...";
-                    RiggingProgressValue += 5;
+                    RiggingProgressValue += 10;
                     break;
                 case -1:
                     RiggingProgressStatus = "Error. " + RiggingProgressStatus;

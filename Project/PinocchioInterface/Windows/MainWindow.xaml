@@ -13,8 +13,12 @@
         mc:Ignorable="d"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        Title="Pinocchio GUI" Height="720" Width="1280" SaveWindowPosition="True" WindowStartupLocation="CenterScreen"
-        >
+        Title="Pinocchio GUI" 
+        Height="720"
+        Width="1280" 
+        SaveWindowPosition="True" 
+        WindowStartupLocation="CenterScreen"
+        GlowBrush="Black">
     <Window.DataContext>
         <viewmodel:MainWindowViewModel/>
     </Window.DataContext>

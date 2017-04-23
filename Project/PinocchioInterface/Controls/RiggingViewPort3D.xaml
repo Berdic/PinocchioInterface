@@ -12,7 +12,7 @@
         <Helix:HelixViewport3D x:Name="myView" ZoomExtentsWhenLoaded="True" ModelUpDirection="0 1 0"  >
             
             <Helix:SunLight/>
-            <ModelVisual3D x:Name="foo" Content="{Binding Path=RiggingModel.ModelsOnScreen.Model3DGroup, ElementName=thisControl}">
+            <ModelVisual3D x:Name="foo" Content="{Binding Path=RiggingModel.Model3DGroup, ElementName=thisControl}">
                 <ModelVisual3D.Transform>
                     <Transform3DGroup>
                         <Transform3DGroup.Children>
@@ -40,9 +40,9 @@
 
 
 
-                            <ScaleTransform3D ScaleX="{Binding Path=RiggingModel.ModelsOnScreen.ScaleFactorGrid, ElementName=thisControl}"
-                                          ScaleZ="{Binding Path=RiggingModel.ModelsOnScreen.ScaleFactorGrid, ElementName=thisControl}" 
-                                          ScaleY="{Binding Path=RiggingModel.ModelsOnScreen.ScaleFactorGrid, ElementName=thisControl}"/>
+                            <ScaleTransform3D ScaleX="{Binding Path=RiggingModel.ScaleFactorGrid, ElementName=thisControl}"
+                                          ScaleZ="{Binding Path=RiggingModel.ScaleFactorGrid, ElementName=thisControl}" 
+                                          ScaleY="{Binding Path=RiggingModel.ScaleFactorGrid, ElementName=thisControl}"/>
                         </Transform3DGroup.Children>
                     </Transform3DGroup>
                 </ModelVisual3D.Transform>
@@ -61,7 +61,7 @@
                 </Helix:GridLinesVisual3D.Transform>
             </Helix:GridLinesVisual3D>
 
-            <Helix:PointsVisual3D Points="{Binding Path=RiggingModel.ModelsOnScreen.Joints, ElementName=thisControl}" Size="5" />
+            <Helix:PointsVisual3D Points="{Binding Path=RiggingModel.VisualJoints, ElementName=thisControl}" Size="5" />
 
             <Helix:HelixViewport3D.Camera >
                 <PerspectiveCamera Position="0,1,2" LookDirection="0 -1 -2"/>

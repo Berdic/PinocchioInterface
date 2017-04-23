@@ -12,7 +12,7 @@ xcopy "%1Resources\Pinocchio\*.*" "%1PinocchioInterface\bin\%3\%2\Pinocchio\" /Y
 
 ECHO COPY FROM %1Pinocchio\Pinocchio.dll TO %1PinocchioInterface\bin\%3\%2
 
-xcopy "%1\%2\Pinocchio.dll" "%1PinocchioInterface\bin\%3\%2" /Y /E
+xcopy "%1Pinocchio\Release\Pinocchio.dll" "%1PinocchioInterface\bin\%3\%2" /Y /E
 	
 	
 	

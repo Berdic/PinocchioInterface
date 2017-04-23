@@ -274,7 +274,7 @@ private:
         void setRect(const Rect3 &r) const { }
 
     private:
-        mutable hash_map<unsigned int, double> cache;
+        mutable unordered_map<unsigned int, double> cache;
         const ObjectProjector<3, Vec3Object> &proj;
         const RootNode *dTree;
     };

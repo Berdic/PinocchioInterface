@@ -51,19 +51,19 @@ namespace _HASH_NAMESPACE {
         }; \
     }
 #else //MICROSOFT VC 2005
-#include <hash_map>
-#include <hash_set>
+#include <unordered_map>
+#include <unordered_set>
 
 #define _HASH_NAMESPACE stdext
 
 using namespace _HASH_NAMESPACE;
 
 namespace _HASH_NAMESPACE {
-    /*template<class T> struct hash
+    template<class T> struct hash
     {
         size_t operator()(const T &p) { return hash_compare<T>()(p); }
     };
-*/
+
     template<class T1, class T2> struct hash_compare<std::pair<T1, T2> >
     {
         static const size_t bucket_size = 4;

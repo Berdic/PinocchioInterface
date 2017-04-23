@@ -118,7 +118,6 @@
     </ApplicationDefinition>
     <Compile Include="Classes\Joint.cs" />
     <Compile Include="Classes\RiggingModel.cs" />
-    <Compile Include="Classes\VisualModel.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Controls\ProgressControl.xaml.cs">
       <DependentUpon>ProgressControl.xaml</DependentUpon>

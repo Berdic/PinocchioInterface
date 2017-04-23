@@ -1,4 +1,5 @@
-﻿using PinocchioInterface.Classes;
+﻿using HelixToolkit.Wpf;
+using PinocchioInterface.Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,9 +24,9 @@ namespace PinocchioInterface
         private Motion _motion;
         private Skeleton _skeleton;
         
-        private VisualModel _visualModel;
+        //private VisualModel _visualModel;
 
-        private List<Joint> _joints;
+        private Point3DCollection _visualJoints;
 
         public RiggingModel(string path)
         {
@@ -38,20 +39,62 @@ namespace PinocchioInterface
             Motion = Motion.None;
             Skeleton = Skeleton.Human;
 
-            Joints = new List<Joint>();
-            
+            LoadMeshModelFromFile();
 
-            ModelsOnScreen = new VisualModel(Path);
+            Joints = new List<Joint>();
+
+            Rect3D rectangle = Model3DGroup.Children[Model3DGroup.Children.Count - 1].Bounds;
+            ApplyTranslation(rectangle);
+
+            ScaleFactorGrid = 1 / rectangle.SizeY;
+
+            VisualJoints = new Point3DCollection();
+
+        }
+
+        private double _scaleFactorGrid;
+
+        public double ScaleFactorGrid
+        {
+            get { return _scaleFactorGrid; }
+            set { _scaleFactorGrid = value; }
+        }
+        
+
+        private Model3DGroup _model3DGroup;
+
+        public Model3DGroup Model3DGroup
+        {
+            get { return _model3DGroup; }
+            set { _model3DGroup = value; }
+        }
+
+        public List<Joint> Joints { get; set; }
+
+        private void LoadMeshModelFromFile()
+        {
+            ObjReader CurrentHelixObjReader = new ObjReader();
+            Model3DGroup = CurrentHelixObjReader.Read(Path);
+        }
+
+        private void ApplyTranslation(Rect3D rectangle)
+        {
+
+            double y_transform_value = rectangle.Y + rectangle.SizeY / 2;
+            double x_transform_value = rectangle.X + rectangle.SizeX / 2;
+            double z_transform_value = rectangle.Z + rectangle.SizeZ / 2;
+
+            Model3DGroup.Transform = new TranslateTransform3D(-x_transform_value, -y_transform_value, -z_transform_value);
         }
 
 
-        public List<Joint> Joints
+        public Point3DCollection VisualJoints
         {
-            get { return _joints; }
+            get { return _visualJoints; }
             set
             {
-                _joints = value;
-                NotifyPropertyChanged("Joints");
+                _visualJoints = value;
+                NotifyPropertyChanged("VisualJoints");
             }
         }
 
@@ -165,14 +208,14 @@ namespace PinocchioInterface
         }
 
 
-        /// <summary>
-        /// Model shown in interface
-        /// </summary>
-        public VisualModel ModelsOnScreen
-        {
-            get { return _visualModel; }
-            set { _visualModel = value; NotifyPropertyChanged("ModelsOnScreen"); }
-        }
+        ///// <summary>
+        ///// Model shown in interface
+        ///// </summary>
+        //public VisualModel ModelsOnScreen
+        //{
+        //    get { return _visualModel; }
+        //    set { _visualModel = value; NotifyPropertyChanged("ModelsOnScreen"); }
+        //}
 
         //TODO: If not using anymore, delet this.
         ////public string GetCommandLineArguments(string motionFolder)
