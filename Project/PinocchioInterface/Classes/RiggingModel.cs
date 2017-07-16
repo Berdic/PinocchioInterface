@@ -30,11 +30,8 @@ namespace PinocchioInterface
 
         public RiggingModel(string path)
         {
-           
+           //Set default values
             Path = path;
-            XRot = 0;
-            YRot = 0;
-            ZRot = 0;
             ScaleFactor = 1;
             Motion = Motion.None;
             Skeleton = Skeleton.Human;
@@ -42,13 +39,12 @@ namespace PinocchioInterface
             LoadMeshModelFromFile();
 
             Joints = new List<Joint>();
+            VisualJoints = new Point3DCollection();
 
+            //apply translation and scale factor for floor grid
             Rect3D rectangle = Model3DGroup.Children[Model3DGroup.Children.Count - 1].Bounds;
             ApplyTranslation(rectangle);
-
             ScaleFactorGrid = 1 / rectangle.SizeY;
-
-            VisualJoints = new Point3DCollection();
 
         }
 
@@ -70,24 +66,7 @@ namespace PinocchioInterface
         }
 
         public List<Joint> Joints { get; set; }
-
-        private void LoadMeshModelFromFile()
-        {
-            ObjReader CurrentHelixObjReader = new ObjReader();
-            Model3DGroup = CurrentHelixObjReader.Read(Path);
-        }
-
-        private void ApplyTranslation(Rect3D rectangle)
-        {
-
-            double y_transform_value = rectangle.Y + rectangle.SizeY / 2;
-            double x_transform_value = rectangle.X + rectangle.SizeX / 2;
-            double z_transform_value = rectangle.Z + rectangle.SizeZ / 2;
-
-            Model3DGroup.Transform = new TranslateTransform3D(-x_transform_value, -y_transform_value, -z_transform_value);
-        }
-
-
+        
         public Point3DCollection VisualJoints
         {
             get { return _visualJoints; }
@@ -206,6 +185,34 @@ namespace PinocchioInterface
             get { return _skeleton; }
             set { _skeleton = value; NotifyPropertyChanged("Skeleton"); }
         }
+
+
+        #region Functions
+
+        /// <summary>
+        /// LoadsMeshModelFromFile
+        /// </summary>
+        private void LoadMeshModelFromFile()
+        {
+            ObjReader CurrentHelixObjReader = new ObjReader();
+            Model3DGroup = CurrentHelixObjReader.Read(Path);
+        }
+
+        /// <summary>
+        /// Applies translation on model so it is set in coordinate begining
+        /// </summary>
+        /// <param name="rectangle">Bounding box of model</param>
+        private void ApplyTranslation(Rect3D rectangle)
+        {
+            double y_transform_value = rectangle.Y + rectangle.SizeY / 2;
+            double x_transform_value = rectangle.X + rectangle.SizeX / 2;
+            double z_transform_value = rectangle.Z + rectangle.SizeZ / 2;
+
+            Model3DGroup.Transform = new TranslateTransform3D(-x_transform_value, -y_transform_value, -z_transform_value);
+        }
+        
+
+        #endregion
 
 
         ///// <summary>

@@ -212,8 +212,8 @@
 
                     </StackPanel>
                 </GroupBox>
-
-                <GroupBox x:Name="gbMotion" Header="Motion">
+                <!--Motion is not supported-->
+                <GroupBox x:Name="gbMotion" Header="Motion" IsEnabled="False">
                     <GroupBox.Style>
                         <Style TargetType="GroupBox" BasedOn="{StaticResource MetroGroupBox}">
                             <Style.Triggers>

@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 
 namespace PinocchioInterface.ViewModel
@@ -180,12 +181,33 @@ namespace PinocchioInterface.ViewModel
         /// </summary>
         private void VisualizeJoints()
         {
-            
+            //double heightX = Math.Abs(SelectedRiggingModel.Joints.Max(x => x.X) - SelectedRiggingModel.Joints.Min(x => x.X));
+            //double heightY = Math.Abs(SelectedRiggingModel.Joints.Max(x => x.Y) - SelectedRiggingModel.Joints.Min(x => x.Y));
+            //double heightZ = Math.Abs(SelectedRiggingModel.Joints.Max(x => x.Z) - SelectedRiggingModel.Joints.Min(x => x.Z));
+
+
+            //SelectedRiggingModel.Joints.ForEach(dot =>
+            //{
+            //    Point3D point = new Point3D(
+            //        dot.X - (SelectedRiggingModel.Joints.Min(x => x.X) + heightX/2), 
+            //        dot.Y - (SelectedRiggingModel.Joints.Min(x => x.Y) + heightY / 2), 
+            //        dot.Z - (SelectedRiggingModel.Joints.Min(x => x.Z) + heightZ / 2));
+
+            //    SelectedRiggingModel.VisualJoints.Add(point);
+            //});
+
             SelectedRiggingModel.Joints.ForEach(dot =>
             {
-                System.Windows.Media.Media3D.Point3D point = new System.Windows.Media.Media3D.Point3D(dot.X, dot.Y, dot.Z);
+                Point3D point = new Point3D(
+                    dot.X,
+                    dot.Y,
+                    dot.Z);
+
                 SelectedRiggingModel.VisualJoints.Add(point);
             });
+
+
+
         }
 
         /// <summary>
@@ -252,13 +274,12 @@ namespace PinocchioInterface.ViewModel
 
         private void RestartProgress()
         {
-            
-            //c
+            //Reset process in Pinocchio library
             ResetProcess();
             //setting status
             RiggingProgressStatus = "Configuration...";
             //setting progress bar to 0
-            RiggingProgressValue = 10;
+            RiggingProgressValue = 0;
             //reinitializing cancellation token
             _cts = new CancellationTokenSource();
         }
@@ -276,52 +297,52 @@ namespace PinocchioInterface.ViewModel
             switch(phase)
             {
                 case 1:
+                    OvertimeProgressUpdate(8);
                     RiggingProgressStatus = "Configuration...";
-                    RiggingProgressValue = 8;
                     break;
                 case 2:
+                    OvertimeProgressUpdate(6);
                     RiggingProgressStatus = "Mesh preparing...";
-                    RiggingProgressValue += 6;
                     break;
                 case 3:
+                    OvertimeProgressUpdate(4);
                     RiggingProgressStatus = "Construction of distance field...";
-                    RiggingProgressValue += 4;
                     break;
                 case 4:
+                    OvertimeProgressUpdate(70);
                     RiggingProgressStatus = "Discretization...";
-                    RiggingProgressValue += 70;
                     break;
                 case 5:
+                    OvertimeProgressUpdate(60);
                     RiggingProgressStatus = "Sphere packing phase...";
-                    RiggingProgressValue += 60;
                     break;
                 case 6:
+                    OvertimeProgressUpdate(4);
                     RiggingProgressStatus = "Connecting samples...";
-                    RiggingProgressValue += 4;
                     break;
                 case 7:
+                    OvertimeProgressUpdate(10);
                     RiggingProgressStatus = "Computing possibilities...";
-                    RiggingProgressValue += 10;
                     break;
                 case 8:
+                    OvertimeProgressUpdate(4);
                     RiggingProgressStatus = "Discrete embedding...";
-                    RiggingProgressValue += 4;
                     break;
                 case 9:
+                    OvertimeProgressUpdate(10);
                     RiggingProgressStatus = "Path splitting...";
-                    RiggingProgressValue += 10;
                     break;
                 case 10:
+                    OvertimeProgressUpdate(10);
                     RiggingProgressStatus = "Medial surface...";
-                    RiggingProgressValue += 10;
                     break;
                 case 11:
+                    OvertimeProgressUpdate(4);
                     RiggingProgressStatus = "Refine embedding...";
-                    RiggingProgressValue += 4;
                     break;
                 case 12:
+                    OvertimeProgressUpdate(10);
                     RiggingProgressStatus = "Finishing...";
-                    RiggingProgressValue += 10;
                     break;
                 case -1:
                     RiggingProgressStatus = "Error. " + RiggingProgressStatus;
@@ -336,11 +357,19 @@ namespace PinocchioInterface.ViewModel
             _previousePhase = phase;
         }
 
+        private void OvertimeProgressUpdate(int value)
+        {
+            for(int i = 1; i <= value; i++)
+            {
+                RiggingProgressValue += 1;
+                Thread.Sleep(10);
+            }
+        }
+
         private async Task BackgroundAutoRigging()
         {
             byte[] bytes = Encoding.ASCII.GetBytes(SelectedRiggingModel.Path);
-
-
+            
             unsafe
             {
                 fixed (byte* p = bytes)
@@ -482,9 +511,7 @@ namespace PinocchioInterface.ViewModel
             }
         }
 
-
-
-
+        
         #endregion
     }
 }
